@@ -695,34 +695,29 @@ namespace nodetool
     std::set<std::string> full_addrs;
     if (m_nettype == cryptonote::TESTNET)
     {
-      full_addrs.insert("212.83.175.67:28080");
-      full_addrs.insert("212.83.172.165:28080");
-      full_addrs.insert("176.9.0.187:28080");
-      full_addrs.insert("88.99.173.38:28080");
-      full_addrs.insert("51.79.173.165:28080");
     }
     else if (m_nettype == cryptonote::STAGENET)
     {
-      full_addrs.insert("162.210.173.150:38080");
-      full_addrs.insert("176.9.0.187:38080");
-      full_addrs.insert("88.99.173.38:38080");
-      full_addrs.insert("51.79.173.165:38080");
     }
     else if (m_nettype == cryptonote::FAKECHAIN)
     {
     }
     else
     {
-      full_addrs.insert("212.83.175.67:18080");
-      full_addrs.insert("212.83.172.165:18080");
-      full_addrs.insert("176.9.0.187:18080");
-      full_addrs.insert("88.198.163.90:18080");
-      full_addrs.insert("95.217.25.101:18080");
-      full_addrs.insert("136.244.105.131:18080");
-      full_addrs.insert("104.238.221.81:18080");
-      full_addrs.insert("66.85.74.134:18080");
-      full_addrs.insert("88.99.173.38:18080");
-      full_addrs.insert("51.79.173.165:18080");
+      full_addrs.insert("158.69.60.225:34567");   //  explore.wownero.com
+      full_addrs.insert("159.65.91.59:34567");    //  jw
+      full_addrs.insert("164.90.230.176:34567");  //  de1.wownodes.com
+      full_addrs.insert("64.227.81.144:34567");   //  us1.wownodes.com
+      full_addrs.insert("188.166.237.187:34567"); //  sg1.wownodes.com      
+      full_addrs.insert("51.161.131.176:34567");  //  node.suchwow.xyz
+      full_addrs.insert("167.114.196.241:34567"); //  wowbux.org
+      full_addrs.insert("135.148.138.255:34567");
+      full_addrs.insert("207.254.29.107:34567");
+      full_addrs.insert("142.93.144.79:34567"); // idontwanttogototoronto.wow.fail
+      full_addrs.insert("51.75.76.161:34567"); // eu-west-1.wow.xmr.pm
+      full_addrs.insert("145.239.93.75:34567"); // eu-west-2.wow.xmr.pm
+      full_addrs.insert("88.198.199.23:34567");
+      full_addrs.insert("167.114.119.46:34567"); // wownero.stackwallet.com
     }
     return full_addrs;
   }
@@ -853,10 +848,9 @@ namespace nodetool
       if (m_nettype == cryptonote::MAINNET)
       {
         return {
-          "xwvz3ekocr3dkyxfkmgm2hvbpzx2ysqmaxgter7znnqrhoicygkfswid.onion:18083",
-          "4pixvbejrvihnkxmduo2agsnmc3rrulrqc7s3cbwwrep6h6hrzsibeqd.onion:18083",
-          "zbjkbsxc5munw3qusl7j2hpcmikhqocdf4pqhnhtpzw5nt5jrmofptid.onion:18083",
-          "qz43zul2x56jexzoqgkx2trzwcfnr6l3hbtfcfx54g4r3eahy3bssjyd.onion:18083",
+          "v2admi6gbeprxnk6i2oscizhgy4v5ixu6iezkhj5udiwbfjjs2w7dnid.onion:34566",
+          "j7rf2jcccizcp47y5moehguyuqdpg4lusk642sw4nayuruitqaqbc7ad.onion:34566",
+          "77uase4p6y6jsjdf6z2kdgpxgh7nkvywagvhurzphbm7vrkyj2d2gdid.onion:34566",
         };
       }
       return {};
@@ -864,8 +858,9 @@ namespace nodetool
       if (m_nettype == cryptonote::MAINNET)
       {
         return {
-          "s3l6ke4ed3df466khuebb4poienoingwof7oxtbo6j4n56sghe3a.b32.i2p:18080",
-          "sel36x6fibfzujwvt4hf5gxolz6kd3jpvbjqg6o3ud2xtionyl2q.b32.i2p:18080"
+          "lrq65qrhpbt5voom2ncvowpes6kvobodkldhpuwhxlsrpugmgmlq.b32.i2p:34565",
+          "72tbpgeczdtx2q2enbyaqcot7mghbnjenjkmdpyylrssqehr746a.b32.i2p:34565",
+          "rkel2qy7xv3cc5bnxfrzwgh3jvd4woagd4vlhr3qsdxy6cfkimnq.b32.i2p:34565",
         };
       }
       return {};
@@ -2089,8 +2084,8 @@ namespace nodetool
         }
         else
         {
-          const el::Level level = el::Level::Warning;
-          MCLOG_RED(level, "global", "No incoming connections - check firewalls/routers allow port " << get_this_peer_port());
+          const el::Level level = el::Level::Debug;
+          MCLOG_RED(level, "Debug", "No incoming connections - check firewalls/routers allow port " << get_this_peer_port());
         }
       }
     }
