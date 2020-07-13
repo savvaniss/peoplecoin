@@ -1,7 +1,6 @@
 [submodule "external/unbound"]
-	path = external/unbound
-	url = https://git.wownero.com/wownero/unbound
-	branch = monero
+        path = external/unbound
+        url = https://git.wownero.com/wownero/unbound
 [submodule "external/miniupnp"]
 	path = external/miniupnp
 	url = https://git.wownero.com/wownero/miniupnp
