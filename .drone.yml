@@ -43,8 +43,8 @@ server:
     from_secret: mac-server
   user:
     from_secret: mac-user
-  ssh_key:
-    from_secret: ssh-key
+  password:
+    from_secret: mac-password
 
 steps:
 - name: mac-build
