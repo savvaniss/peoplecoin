@@ -73,7 +73,7 @@
 #define DROP_ON_SYNC_WEDGE_THRESHOLD (30 * 1000000000ull) // nanoseconds
 #define LAST_ACTIVITY_STALL_THRESHOLD (2.0f) // seconds
 #define WAIT_FOR_BLOCK_TIME (20) // seconds
-#define DROP_PEERS_ON_SCORE -2
+#define DROP_PEERS_ON_SCORE -1
 
 namespace cryptonote
 {
@@ -1730,7 +1730,7 @@ skip:
     {
       if (!m_p2p->for_connection(uuid, [&](cryptonote_connection_context& ctx, nodetool::peerid_type peer_id, uint32_t f)->bool{
         MINFO(ctx << "dropping bad peer (score " << ctx.m_score << ")");
-        drop_connection(ctx, 5, false);
+        drop_connection(ctx, 10, false);
         return true;
       }))
         MDEBUG("Failed to find peer we wanted to drop");
@@ -1830,8 +1830,8 @@ skip:
     {
       MINFO(context << "Peer " << context.m_connection_id << " relayed the block we were waiting on");
       context.m_score += 1;
-      if (context.m_score > 5) // prevent a node from being all nice for a while then switching to asshole
-        context.m_score = 5;
+      if (context.m_score > 10) // prevent a node from being all nice for a while then switching to asshole
+        context.m_score = 10;
       context.m_waiting_for_block = "";
       context.m_waiting_for_block_deadline = std::numeric_limits<time_t>::max();
     }
