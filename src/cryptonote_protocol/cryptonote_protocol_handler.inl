@@ -73,7 +73,7 @@
 #define DROP_ON_SYNC_WEDGE_THRESHOLD (30 * 1000000000ull) // nanoseconds
 #define LAST_ACTIVITY_STALL_THRESHOLD (2.0f) // seconds
 #define WAIT_FOR_BLOCK_TIME (20) // seconds
-#define DROP_PEERS_ON_SCORE -2
+#define DROP_PEERS_ON_SCORE -1
 
 namespace cryptonote
 {
