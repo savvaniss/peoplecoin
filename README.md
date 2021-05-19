@@ -1,4 +1,3 @@
-[![Build Status](https://ci.wownero.com/api/badges/wownero/wownero/status.svg)](https://ci.wownero.com/wownero/wownero)
 # ~~Mo~~Wownero -  Such privacy! Many coins! Wow! 🐕
 
 Copyright (c) 2014-2021 The Monero Project.   
@@ -6,6 +5,7 @@ Portions Copyright (c) 2012-2013 The Cryptonote developers.
 
 ## Resources
 
+- IRC: [OFTC #wownero](https://webchat.oftc.net/?channels=wownero)
 - Web: [wownero.org](https://wownero.org)
 - Twitter: [@w0wn3r0](https://twitter.com/w0wn3r0)
 - Reddit: [/r/wownero](https://www.reddit.com/r/wownero)
@@ -13,13 +13,13 @@ Portions Copyright (c) 2012-2013 The Cryptonote developers.
 - Git: [git.wownero.com/wownero/wownero](https://git.wownero.com/wownero/wownero)
 - Wownero Funding System: [funding.wownero.com](https://funding.wownero.com)
 - Wownero Forum: [forum.wownero.com](https://forum.wownero.com)
-- Discord: [discord.gg/ENbgme4bWq](https://discord.com/invite/ENbgme4bWq)
+- Discord: [discord.gg/ykZyAzJhDK](https://discord.com/invite/ykZyAzJhDK)
 - Telegram: [t.me/wownero](https://t.me/wownero)
-- Feather-WOW Desktop Wallet: [featherwallet.org/wownero](https://featherwallet.org/wownero)
+- Wowlet Desktop Wallet: [git.wownero.com/wowlet/wowlet](https://git.wownero.com/wowlet/wowlet/releases)
 - WOW Stash Web Wallet: [wowstash.app](https://wowstash.app)
 - Public Node Status: [monero.fail](https://monero.fail/?crypto=wownero)
 - Map of Nodes: [wownero.fyi](https://wownero.fyi)
-- Wownero Memes: [suchwow.xyz]https://suchwow.xyz/posts/top)
+- Wownero Memes: [suchwow.xyz](https://suchwow.xyz/posts/top)
 - XMR/WOW Swap: [nero Swap](https://neroswap.com)
 - Mining Pools: [miningpoolstats.stream](https://miningpoolstats.stream/wownero)
 - Market Info: [coinmarketcap.com](https://coinmarketcap.com/currencies/wownero), [coingecko.com](https://www.coingecko.com/en/coins/wownero/usd)
