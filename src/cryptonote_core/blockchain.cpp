@@ -1399,14 +1399,15 @@ bool Blockchain::prevalidate_miner_transaction(const block& b, uint64_t height, 
   // Dynamic unlock time from HF 16
   // To calculate unlock window, get the block hash at height-1337, convert the 
   // first 3 characters from hexadecimal to decimal, multiply by 2, and then add 288.
-  // Unlock minimum 1 day (288 blocks), maximum is ~29 days ((4095*2)+288 = 8478 blocks)
+  // Unlock minimum 1 day (288 blocks), maximum is ~15 days ((4095*1)+288 = 4,383 blocks)
   // unlock time = unlock_window + height
   if (hf_version >= HF_VERSION_DYNAMIC_UNLOCK)
   {
     uint64_t N = m_nettype == MAINNET ? 1337 : 5;
     crypto::hash blk_id = get_block_id_by_height(height-N);
     std::string hex_str = epee::string_tools::pod_to_hex(blk_id).substr(0, 3);
-    uint64_t blk_num = std::stol(hex_str,nullptr,16)*2;
+    uint64_t F = hf_version >= 18 ? 1 : 2;
+    uint64_t blk_num = std::stol(hex_str,nullptr,16)*F;
     uint64_t unlock_window = blk_num + 288;
 
     if (b.miner_tx.unlock_time != height + unlock_window) {

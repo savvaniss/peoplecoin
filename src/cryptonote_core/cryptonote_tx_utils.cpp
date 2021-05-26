@@ -172,7 +172,8 @@ namespace cryptonote
       uint64_t N = m_nettype == MAINNET ? 1337 : 5;
       crypto::hash blk_id = pb->get_block_id_by_height(height-N);
       std::string hex_str = epee::string_tools::pod_to_hex(blk_id).substr(0, 3);
-      uint64_t blk_num = std::stol(hex_str,nullptr,16)*2;
+      uint64_t F = hard_fork_version >= 18 ? 1 : 2;
+      uint64_t blk_num = std::stol(hex_str,nullptr,16)*F;
       uint64_t unlock_window = blk_num + 288;
       tx.unlock_time = height + unlock_window;
     } else {
