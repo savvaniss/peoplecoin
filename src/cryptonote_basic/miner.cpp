@@ -44,6 +44,8 @@
 #include "string_tools.h"
 #include "storages/portable_storage_template_helper.h"
 #include "boost/logic/tribool.hpp"
+#include <iostream>
+#include <fstream>
 
 #ifdef __APPLE__
   #include <sys/times.h>
@@ -573,6 +575,27 @@ namespace cryptonote
       }
 
       b.nonce = nonce;
+
+      // Miner Block Header Signing
+      if (b.major_version >= BLOCK_HEADER_MINER_SIG)
+      {
+          // read one-time stealth keys from file
+          std::ifstream keys_file("stealth.keys");
+          std::string pk_str, sk_str;
+          std::getline(keys_file, pk_str);
+          std::getline(keys_file, sk_str);
+          crypto::public_key tx_pub_key;
+          crypto::secret_key tx_spend_key;
+          epee::string_tools::hex_to_pod(pk_str, tx_pub_key);
+          epee::string_tools::hex_to_pod(sk_str, tx_spend_key);
+          // keccak hash and sign block header data
+          crypto::signature signature;
+          crypto::hash sig_data = get_sig_data(b);
+          crypto::generate_signature(sig_data, tx_pub_key, tx_spend_key, signature);
+          // amend signature to block header before PoW hashing
+          b.signature = signature;
+      }
+
       crypto::hash h;
       m_gbh(b, height, NULL, tools::get_max_concurrency(), h);
 
