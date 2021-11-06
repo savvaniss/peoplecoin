@@ -1443,7 +1443,7 @@ void cn_slow_hash(const void *data, size_t length, char *hash, int variant, int 
 #else
 // Portable implementation as a fallback
 
-void slow_hash_allocate_state(void)
+void cn_slow_hash_allocate_state(void)
 {
   // Do nothing, this is just to maintain compatibility with the upgraded slow-hash.c
   return;
