@@ -946,18 +946,18 @@ start:
   uint64_t N = DIFFICULTY_WINDOW_V3;
   uint64_t HEIGHT = m_db->height();
 
-  difficulty_type diff = next_difficulty(timestamps, m_nettype, difficulties, target, HEIGHT);
+  difficulty_type diff = next_difficulty(timestamps, difficulties, target, HEIGHT);
 
   if (version <= 17 && version >= 11) {
-    diff = next_difficulty_v5(timestamps, m_nettype, difficulties, T, N, HEIGHT);
+    diff = next_difficulty_v5(timestamps, difficulties, T, N, HEIGHT);
   } else if (version == 10) {
-    diff = next_difficulty_v4(timestamps, m_nettype, difficulties, HEIGHT);
+    diff = next_difficulty_v4(timestamps, difficulties, HEIGHT);
   } else if (version == 9) {
-    diff = next_difficulty_v3(timestamps, m_nettype, difficulties, HEIGHT);
+    diff = next_difficulty_v3(timestamps, difficulties, HEIGHT);
   } else if (version == 8) {
-    diff = next_difficulty_v2(timestamps, m_nettype, difficulties, target, HEIGHT);
+    diff = next_difficulty_v2(timestamps, difficulties, target, HEIGHT);
   } else {
-    diff = next_difficulty(timestamps, m_nettype, difficulties, target, HEIGHT);
+    diff = next_difficulty(timestamps, difficulties, target, HEIGHT);
   }
 
   CRITICAL_REGION_LOCAL1(m_difficulty_lock);
@@ -1041,18 +1041,18 @@ size_t Blockchain::recalculate_difficulties(boost::optional<uint64_t> start_heig
     uint64_t N = DIFFICULTY_WINDOW_V3;
     uint64_t HEIGHT = m_db->height();
     size_t target = get_ideal_hard_fork_version(height) < 2 ? DIFFICULTY_TARGET_V1 : DIFFICULTY_TARGET_V2;
-    difficulty_type recalculated_diff = next_difficulty(timestamps, m_nettype, difficulties, target, HEIGHT);
+    difficulty_type recalculated_diff = next_difficulty(timestamps, difficulties, target, HEIGHT);
     
     if (version <= 17 && version >= 11) {
-      recalculated_diff = next_difficulty_v5(timestamps, m_nettype, difficulties, T, N, HEIGHT);
+      recalculated_diff = next_difficulty_v5(timestamps, difficulties, T, N, HEIGHT);
     } else if (version == 10) {
-      recalculated_diff = next_difficulty_v4(timestamps, m_nettype, difficulties, HEIGHT);
+      recalculated_diff = next_difficulty_v4(timestamps, difficulties, HEIGHT);
     } else if (version == 9) {
-      recalculated_diff = next_difficulty_v3(timestamps, m_nettype, difficulties, HEIGHT);
+      recalculated_diff = next_difficulty_v3(timestamps, difficulties, HEIGHT);
     } else if (version == 8) {
-      recalculated_diff = next_difficulty_v2(timestamps, m_nettype, difficulties, target, HEIGHT);
+      recalculated_diff = next_difficulty_v2(timestamps, difficulties, target, HEIGHT);
     } else {
-      recalculated_diff = next_difficulty(timestamps, m_nettype, difficulties, target, HEIGHT);
+      recalculated_diff = next_difficulty(timestamps, difficulties, target, HEIGHT);
     }
 
     boost::multiprecision::uint256_t recalculated_cum_diff_256 = boost::multiprecision::uint256_t(recalculated_diff) + last_cum_diff;
@@ -1363,17 +1363,17 @@ difficulty_type Blockchain::get_next_difficulty_for_alternative_chain(const std:
 
   // calculate the difficulty target for the block and return it
   if (version <= 17 && version >= 11) {
-    return next_difficulty_v5(timestamps, m_nettype, cumulative_difficulties, T, N, HEIGHT);
+    return next_difficulty_v5(timestamps, cumulative_difficulties, T, N, HEIGHT);
   } else if (version == 10) {
-    return next_difficulty_v4(timestamps, m_nettype, cumulative_difficulties, HEIGHT);
+    return next_difficulty_v4(timestamps, cumulative_difficulties, HEIGHT);
   } else if (version == 9) {
-    return next_difficulty_v3(timestamps, m_nettype, cumulative_difficulties, HEIGHT);
+    return next_difficulty_v3(timestamps, cumulative_difficulties, HEIGHT);
   } else if (version == 8) {
-    return next_difficulty_v2(timestamps, m_nettype, cumulative_difficulties, target, HEIGHT);
+    return next_difficulty_v2(timestamps, cumulative_difficulties, target, HEIGHT);
   } else {
-    return next_difficulty(timestamps, m_nettype, cumulative_difficulties, target, HEIGHT);
+    return next_difficulty(timestamps, cumulative_difficulties, target, HEIGHT);
   }
-  return next_difficulty(timestamps, m_nettype, cumulative_difficulties, target, HEIGHT);
+  return next_difficulty(timestamps, cumulative_difficulties, target, HEIGHT);
 }
 //------------------------------------------------------------------
 // This function does a sanity check on basic things that all miner
