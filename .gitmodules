@@ -9,10 +9,9 @@
 	path = external/supercop
 	url = https://github.com/monero-project/supercop
 	branch = monero
-[submodule "external/RandomWOW"]
-	path = external/RandomWOW
-	url = https://git.wownero.com/wownero/RandomWOW
-	branch = 1.1.9-wow
 [submodule "external/miniupnp"]
 	path = external/miniupnp
 	url = https://github.com/miniupnp/miniupnp
+[submodule "external/RandomWOW"]
+	path = external/RandomWOW
+	url = https://git.wownero.com/wownero/RandomWOW
