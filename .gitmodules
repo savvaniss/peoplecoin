@@ -2,9 +2,6 @@
 	path = external/unbound
 	url = https://github.com/monero-project/unbound
 	branch = monero
-[submodule "external/miniupnp"]
-	path = external/miniupnp
-	url = https://github.com/miniupnp/miniupnp
 [submodule "external/rapidjson"]
 	path = external/rapidjson
 	url = https://github.com/Tencent/rapidjson
@@ -16,3 +13,6 @@
 	path = external/RandomWOW
 	url = https://git.wownero.com/wownero/RandomWOW
 	branch = 1.1.9-wow
+[submodule "external/miniupnp"]
+	path = external/miniupnp
+	url = https://github.com/miniupnp/miniupnp
