@@ -265,7 +265,7 @@ namespace rct
 
         rct::key res = ONE;
         if (n == 1)
-            return x;
+            return res;
 
         n += 1;
         rct::key x1 = copy(x);
@@ -317,7 +317,16 @@ namespace rct
     static rct::key weighted_inner_product(const rct::keyV &a, const epee::span<const rct::key> &b, const rct::key &y)
     {
         CHECK_AND_ASSERT_THROW_MES(a.size() == b.size(), "Incompatible sizes of a and b");
-        return weighted_inner_product(epee::to_span(a), b, y);
+        rct::key res = rct::zero();
+        rct::key y_power = ONE;
+        rct::key temp;
+        for (size_t i = 0; i < a.size(); ++i)
+        {
+            sc_mul(temp.bytes, a[i].bytes, b[i].bytes);
+            sc_mul(y_power.bytes, y_power.bytes, y.bytes);
+            sc_muladd(res.bytes, temp.bytes, y_power.bytes, res.bytes);
+        }
+        return res;
     }
 
     // Fold inner-product point vectors
@@ -644,7 +653,8 @@ try_again:
         {
             sc_mul(temp.bytes, temp.bytes, z_squared.bytes);
             sc_mul(temp2.bytes, y_powers[MN+1].bytes, temp.bytes);
-            sc_muladd(alpha1.bytes, temp2.bytes, gamma[j].bytes, alpha1.bytes);
+            sc_mul(temp2.bytes, temp2.bytes, gamma[j].bytes);
+            sc_add(alpha1.bytes, alpha1.bytes, temp2.bytes);
         }
 
         // These are used in the inner product rounds
@@ -705,8 +715,7 @@ try_again:
 
             rct::key challenge_squared;
             sc_mul(challenge_squared.bytes, challenge.bytes, challenge.bytes);
-            rct::key challenge_squared_inv;
-            sc_mul(challenge_squared_inv.bytes, challenge_inv.bytes, challenge_inv.bytes);
+            rct::key challenge_squared_inv = invert(challenge_squared);
             sc_muladd(alpha1.bytes, dL.bytes, challenge_squared.bytes, alpha1.bytes);
             sc_muladd(alpha1.bytes, dR.bytes, challenge_squared_inv.bytes, alpha1.bytes);
 
@@ -783,7 +792,15 @@ try_again:
         rct::keyV sv(v.size());
         for (size_t i = 0; i < v.size(); ++i)
         {
-            sv[i] = rct::d2h(v[i]);
+            sv[i] = rct::zero();
+            sv[i].bytes[0] = v[i] & 255;
+            sv[i].bytes[1] = (v[i] >> 8) & 255;
+            sv[i].bytes[2] = (v[i] >> 16) & 255;
+            sv[i].bytes[3] = (v[i] >> 24) & 255;
+            sv[i].bytes[4] = (v[i] >> 32) & 255;
+            sv[i].bytes[5] = (v[i] >> 40) & 255;
+            sv[i].bytes[6] = (v[i] >> 48) & 255;
+            sv[i].bytes[7] = (v[i] >> 56) & 255;
         }
         return bulletproof_plus_PROVE(sv, gamma);
     }

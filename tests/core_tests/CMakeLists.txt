@@ -45,7 +45,7 @@ set(core_tests_sources
   rct.cpp
   bulletproofs.cpp
   bulletproof_plus.cpp
-  rct2.cpp
+        rct2.cpp
   wallet_tools.cpp)
 
 set(core_tests_headers
