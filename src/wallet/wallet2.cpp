@@ -2987,7 +2987,7 @@ void wallet2::pull_and_parse_next_blocks(uint64_t start_height, uint64_t &blocks
         break;
       }
 
-      if (!m_allow_mismatched_daemon_version)
+      /*if (!m_allow_mismatched_daemon_version)
       {
         // make sure block's hard fork version is expected at the block's height
         uint8_t hf_version = parsed_blocks[i].block.major_version;
@@ -3001,7 +3001,7 @@ void wallet2::pull_and_parse_next_blocks(uint64_t start_height, uint64_t &blocks
             ? "Make sure your wallet is up to date"
             : "Make sure the node you are connected to is running the latest version")
         );
-      }
+      }*/
 
       parsed_blocks[i].o_indices = std::move(o_indices[i]);
     }
