@@ -300,6 +300,11 @@ bool gen_multisig_tx_validation_base::generate_with(std::vector<test_event_entry
   destinations.push_back(td);
   td.amount = 0;
   destinations.push_back(td);
+  cryptonote::account_base dummy;
+  dummy.generate();
+  td.addr = dummy.get_keys().m_account_address;
+  td.amount = 0;
+  destinations.push_back(td);
 
   if (pre_tx)
     pre_tx(sources, destinations);
@@ -309,8 +314,8 @@ bool gen_multisig_tx_validation_base::generate_with(std::vector<test_event_entry
   std::vector<crypto::secret_key> additional_tx_secret_keys;
   crypto::secret_key multisig_tx_key_entropy;
   auto sources_copy = sources;
-  multisig::signing::tx_builder_ringct_t tx_builder;
-  CHECK_AND_ASSERT_MES(tx_builder.init(miner_account[creator].get_keys(), {}, 0, 0, {0}, sources, destinations, {}, {rct::RangeProofPaddedBulletproof, 4}, true, false, tx_key, additional_tx_secret_keys, multisig_tx_key_entropy, tx), false, "error: multisig::signing::tx_builder_ringct_t::init");
+  r = construct_tx_and_get_tx_key(miner_account[creator].get_keys(), subaddresses, sources, destinations, boost::none, std::vector<uint8_t>(), tx, 0, tx_key, additional_tx_secret_keys, true, { rct::RangeProofPaddedBulletproof, 0 }, msoutp);
+  CHECK_AND_ASSERT_MES(r, false, "failed to construct transaction");
 
   // work out the permutation done on sources
   std::vector<size_t> ins_order;
@@ -434,8 +439,10 @@ bool gen_multisig_tx_validation_base::generate_with(std::vector<test_event_entry
       crypto::secret_key scalar1;
       crypto::derivation_to_scalar(derivation, n, scalar1);
       rct::ecdhTuple ecdh_info = tx.rct_signatures.ecdhInfo[n];
-      rct::ecdhDecode(ecdh_info, rct::sk2rct(scalar1), tx.rct_signatures.type == rct::RCTTypeBulletproof2 || tx.rct_signatures.type == rct::RCTTypeCLSAG || tx.rct_signatures.type == rct::RCTTypeBulletproofPlus);
+      rct::ecdhDecode(ecdh_info, rct::sk2rct(scalar1), tx.rct_signatures.type == rct::RCTTypeBulletproof2 || tx.rct_signatures.type == rct::RCTTypeCLSAG);
       rct::key C = tx.rct_signatures.outPk[n].mask;
+      if (rct::is_rct_bulletproof_plus(tx.rct_signatures.type))
+        C = rct::scalarmult8(C);
       rct::addKeys2(Ctmp, ecdh_info.mask, ecdh_info.amount, rct::H);
       CHECK_AND_ASSERT_MES(rct::equalKeys(C, Ctmp), false, "Failed to decode amount");
       amount += rct::h2d(ecdh_info.amount);

@@ -158,7 +158,7 @@ bool gen_bp_tx_validation_base::generate_with(std::vector<test_event_entry>& eve
       crypto::derivation_to_scalar(derivation, o, amount_key);
       rct::key rct_tx_mask;
       const uint8_t type = rct_txes.back().rct_signatures.type;
-      if (rct::is_rct_simple(type))
+      if (type == rct::RCTTypeSimple || type == rct::RCTTypeBulletproof || type == rct::RCTTypeBulletproof2 || type == rct::RCTTypeCLSAG)
         rct::decodeRctSimple(rct_txes.back().rct_signatures, rct::sk2rct(amount_key), o, rct_tx_mask, hw::get_device("default"));
       else
         rct::decodeRct(rct_txes.back().rct_signatures, rct::sk2rct(amount_key), o, rct_tx_mask, hw::get_device("default"));
@@ -193,6 +193,7 @@ bool gen_bp_tx_validation_base::check_bp(const cryptonote::transaction &tx, size
 {
   DEFINE_TESTS_ERROR_CONTEXT(context);
   CHECK_TEST_CONDITION(tx.version >= 2);
+MGINFO("type: " << (unsigned)tx.rct_signatures.type);
   CHECK_TEST_CONDITION(rct::is_rct_bulletproof(tx.rct_signatures.type));
   size_t n_sizes = 0, n_amounts = 0;
   for (size_t n = 0; n < tx_idx; ++n)
@@ -232,7 +233,7 @@ bool gen_bp_tx_invalid_1_1::generate(std::vector<test_event_entry>& events) cons
 {
   const size_t mixin = 10;
   const uint64_t amounts_paid[] = {5000, 5000, (uint64_t)-1};
-  const rct::RCTConfig rct_config[] = { { rct::RangeProofBulletproof , 3 } };
+  const rct::RCTConfig rct_config[] = { { rct::RangeProofBulletproof , 0 } };
   return generate_with(events, mixin, 1, amounts_paid, false, rct_config, HF_VERSION_CLSAG, NULL, NULL);
 }
 
@@ -241,7 +242,7 @@ bool gen_bp_tx_valid_2::generate(std::vector<test_event_entry>& events) const
   const size_t mixin = 10;
   const uint64_t amounts_paid[] = {5000, 5000, (uint64_t)-1};
   const size_t bp_sizes[] = {2, (size_t)-1};
-  const rct::RCTConfig rct_config[] = { { rct::RangeProofPaddedBulletproof, 3 } };
+  const rct::RCTConfig rct_config[] = { { rct::RangeProofPaddedBulletproof, 0 } };
   return generate_with(events, mixin, 1, amounts_paid, true, rct_config, HF_VERSION_CLSAG, NULL, [&](const cryptonote::transaction &tx, size_t tx_idx){ return check_bp(tx, tx_idx, bp_sizes, "gen_bp_tx_valid_2"); });
 }
 
@@ -250,7 +251,7 @@ bool gen_bp_tx_valid_3::generate(std::vector<test_event_entry>& events) const
   const size_t mixin = 10;
   const uint64_t amounts_paid[] = {5000, 5000, 5000, (uint64_t)-1};
   const size_t bp_sizes[] = {4, (size_t)-1};
-  const rct::RCTConfig rct_config[] = { { rct::RangeProofPaddedBulletproof, 3 } };
+  const rct::RCTConfig rct_config[] = { { rct::RangeProofPaddedBulletproof, 0 } };
   return generate_with(events, mixin, 1, amounts_paid, true, rct_config, HF_VERSION_CLSAG, NULL, [&](const cryptonote::transaction &tx, size_t tx_idx){ return check_bp(tx, tx_idx, bp_sizes, "gen_bp_tx_valid_3"); });
 }
 
@@ -259,7 +260,7 @@ bool gen_bp_tx_valid_16::generate(std::vector<test_event_entry>& events) const
   const size_t mixin = 10;
   const uint64_t amounts_paid[] = {500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, (uint64_t)-1};
   const size_t bp_sizes[] = {16, (size_t)-1};
-  const rct::RCTConfig rct_config[] = { { rct::RangeProofPaddedBulletproof, 3 } };
+  const rct::RCTConfig rct_config[] = { { rct::RangeProofPaddedBulletproof, 0 } };
   return generate_with(events, mixin, 1, amounts_paid, true, rct_config, HF_VERSION_CLSAG, NULL, [&](const cryptonote::transaction &tx, size_t tx_idx){ return check_bp(tx, tx_idx, bp_sizes, "gen_bp_tx_valid_16"); });
 }
 
@@ -383,13 +384,3 @@ bool gen_bp_tx_invalid_bulletproof2_type::generate(std::vector<test_event_entry>
   });
 }
 
-bool gen_bp_tx_invalid_clsag_type::generate(std::vector<test_event_entry>& events) const
-{
-  DEFINE_TESTS_ERROR_CONTEXT("gen_bp_tx_invalid_clsag_type");
-  const size_t mixin = 10;
-  const uint64_t amounts_paid[] = {5000, 5000, (uint64_t)-1};
-  const rct::RCTConfig rct_config[] = { { rct::RangeProofPaddedBulletproof, 3 } };
-  return generate_with(events, mixin, 1, amounts_paid, false, rct_config, HF_VERSION_BULLETPROOF_PLUS + 1, NULL, [&](cryptonote::transaction &tx, size_t tx_idx){
-    return true;
-  });
-}

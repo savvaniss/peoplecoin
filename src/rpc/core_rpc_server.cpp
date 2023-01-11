@@ -545,12 +545,13 @@ namespace cryptonote
     if (restricted)
       res.database_size = round_up(res.database_size, 5ull* 1024 * 1024 * 1024);
     res.update_available = restricted ? false : m_core.is_update_available();
-    res.version = restricted ? "" : MONERO_VERSION_FULL;
+    res.version = MONERO_VERSION_FULL;
     res.synchronized = check_core_ready();
     res.busy_syncing = m_p2p.get_payload_object().is_busy_syncing();
     res.restricted = restricted;
 
     res.status = CORE_RPC_STATUS_OK;
+    res.donation_address = m_core.get_addy();
     return true;
   }
   //------------------------------------------------------------------------------------------------------------------------------
@@ -1395,15 +1396,15 @@ namespace cryptonote
     if (lMiner.is_mining() || lMiner.get_is_background_mining_enabled())
       res.address = get_account_address_as_str(nettype(), false, lMiningAdr);
     const uint8_t major_version = m_core.get_blockchain_storage().get_current_hard_fork_version();
-    const unsigned variant = major_version >= 7 ? major_version - 6 : 0;
+    const unsigned variant = major_version >= 13 ? 6 : major_version >= 11 && major_version <= 12 ? 4 : 2;
     switch (variant)
     {
       case 0: res.pow_algorithm = "Cryptonight"; break;
       case 1: res.pow_algorithm = "CNv1 (Cryptonight variant 1)"; break;
       case 2: case 3: res.pow_algorithm = "CNv2 (Cryptonight variant 2)"; break;
-      case 4: case 5: res.pow_algorithm = "CNv4 (Cryptonight variant 4)"; break;
-      case 6: case 7: case 8: case 9: res.pow_algorithm = "RandomX"; break;
-      default: res.pow_algorithm = "RandomX"; break; // assumed
+      case 4: case 5: res.pow_algorithm = "CN/WOW"; break;
+      case 6: case 7: case 8: case 9: res.pow_algorithm = "RandomWOW"; break;
+      default: res.pow_algorithm = "RandomWOW"; break; // assumed
     }
     if (res.is_background_mining_enabled)
     {
@@ -1880,6 +1881,7 @@ namespace cryptonote
     }
 
     res.reserved_offset = reserved_offset;
+    res.unlock_height = b.miner_tx.unlock_time;
     store_difficulty(wdiff, res.difficulty, res.wide_difficulty, res.difficulty_top64);
     blobdata block_blob = t_serializable_object_to_blob(b);
     blobdata hashing_blob = get_block_hashing_blob(b);
@@ -1887,6 +1889,7 @@ namespace cryptonote
     res.blocktemplate_blob = string_tools::buff_to_hex_nodelimer(block_blob);
     res.blockhashing_blob =  string_tools::buff_to_hex_nodelimer(hashing_blob);
     res.status = CORE_RPC_STATUS_OK;
+    res.vote = 0;
     return true;
   }
   //------------------------------------------------------------------------------------------------------------------------------
@@ -2189,6 +2192,11 @@ namespace cryptonote
         return false;
       }
       b.nonce = req.starting_nonce;
+      if (b.major_version >= BLOCK_HEADER_MINER_SIG)
+      {
+          b.signature = {};
+          b.vote = 0;
+      }
       crypto::hash seed_hash = crypto::null_hash;
       if (b.major_version >= RX_BLOCK_VERSION && !epee::string_tools::hex_to_pod(template_res.seed_hash, seed_hash))
       {
@@ -2227,6 +2235,7 @@ namespace cryptonote
   bool core_rpc_server::fill_block_header_response(const block& blk, bool orphan_status, uint64_t height, const crypto::hash& hash, block_header_response& response, bool fill_pow_hash)
   {
     PERF_TIMER(fill_block_header_response);
+    response.vote = blk.vote;
     response.major_version = blk.major_version;
     response.minor_version = blk.minor_version;
     response.timestamp = blk.timestamp;

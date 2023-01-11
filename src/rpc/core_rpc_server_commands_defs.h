@@ -690,6 +690,7 @@ namespace cryptonote
       std::string version;
       bool synchronized;
       bool restricted;
+      std::string donation_address;
 
       BEGIN_KV_SERIALIZE_MAP()
         KV_SERIALIZE_PARENT(rpc_access_response_base)
@@ -732,6 +733,7 @@ namespace cryptonote
         KV_SERIALIZE(version)
         KV_SERIALIZE(synchronized)
         KV_SERIALIZE(restricted)
+        KV_SERIALIZE(donation_address)
       END_KV_SERIALIZE_MAP()
     };
     typedef epee::misc_utils::struct_init<response_t> response;
@@ -922,6 +924,8 @@ namespace cryptonote
       std::string next_seed_hash;
       blobdata blocktemplate_blob;
       blobdata blockhashing_blob;
+      uint64_t unlock_height;
+      uint16_t vote;
 
       BEGIN_KV_SERIALIZE_MAP()
         KV_SERIALIZE_PARENT(rpc_response_base)
@@ -937,6 +941,8 @@ namespace cryptonote
         KV_SERIALIZE(blockhashing_blob)
         KV_SERIALIZE(seed_hash)
         KV_SERIALIZE(next_seed_hash)
+        KV_SERIALIZE(unlock_height)
+        KV_SERIALIZE(vote)
       END_KV_SERIALIZE_MAP()
     };
     typedef epee::misc_utils::struct_init<response_t> response;
@@ -1130,6 +1136,7 @@ namespace cryptonote
       std::string pow_hash;
       uint64_t long_term_weight;
       std::string miner_tx_hash;
+      uint16_t vote;
       
       BEGIN_KV_SERIALIZE_MAP()
         KV_SERIALIZE(major_version)
@@ -1154,6 +1161,7 @@ namespace cryptonote
         KV_SERIALIZE(pow_hash)
         KV_SERIALIZE_OPT(long_term_weight, (uint64_t)0)
         KV_SERIALIZE(miner_tx_hash)
+        KV_SERIALIZE(vote)
       END_KV_SERIALIZE_MAP()
   };
 

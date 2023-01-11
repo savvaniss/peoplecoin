@@ -211,7 +211,7 @@ bool gen_rct2_tx_clsag_malleability::generate(std::vector<test_event_entry>& eve
   DEFINE_TESTS_ERROR_CONTEXT("gen_rct_tx_clsag_malleability");
   const int mixin = 10;
   const uint64_t amounts_paid[] = {5000, 5000, (uint64_t)-1};
-  const rct::RCTConfig rct_config[] = { { rct::RangeProofPaddedBulletproof, 3 } };
+  const rct::RCTConfig rct_config[] = { { rct::RangeProofPaddedBulletproof, 0 } };
   return generate_with(events, mixin, 1, amounts_paid, false, rct_config, HF_VERSION_CLSAG + 1, NULL, [&](cryptonote::transaction &tx, size_t tx_idx) {
     CHECK_TEST_CONDITION(tx.version == 2);
     CHECK_TEST_CONDITION(tx.rct_signatures.type == rct::RCTTypeCLSAG);

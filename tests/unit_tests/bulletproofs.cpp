@@ -131,7 +131,7 @@ TEST(bulletproofs, multi_splitting)
     }
 
     rct::ctkeyV outSk;
-    rct::RCTConfig rct_config { rct::RangeProofPaddedBulletproof, 4 };
+    rct::RCTConfig rct_config { rct::RangeProofPaddedBulletproof, 0 };
 
     rct::rctSig s = rct::genRctSimple(rct::zero(), sc, destinations, inamounts, outamounts, available, mixRing, amount_keys, index, outSk, rct_config, hw::get_device("default"));
     ASSERT_TRUE(rct::verRctSimple(s));

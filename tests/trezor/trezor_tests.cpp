@@ -560,7 +560,7 @@ static void expand_tsx(cryptonote::transaction &tx)
       rv.p.MGs[n].II[0] = rct::ki2rct(boost::get<txin_to_key>(tx.vin[n]).k_image);
     }
   }
-  else if (rv.type == rct::RCTTypeCLSAG || rv.type == rct::RCTTypeBulletproofPlus)
+  else if (rv.type == rct::RCTTypeCLSAG)
   {
     if (!tx.pruned)
     {
