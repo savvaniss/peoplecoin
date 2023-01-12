@@ -42,6 +42,7 @@
 #define CRYPTONOTE_PUBLIC_ADDRESS_TEXTBLOB_VER          0
 #define CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_V2         288
 #define CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW            60
+#define CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_LONG       262800 // 6 months
 #define CURRENT_TRANSACTION_VERSION                     2
 #define CURRENT_BLOCK_MAJOR_VERSION                     7
 #define CURRENT_BLOCK_MINOR_VERSION                     7
@@ -196,6 +197,7 @@
 #define HF_VERSION_DETERMINISTIC_UNLOCK_TIME    16
 #define HF_VERSION_DYNAMIC_UNLOCK               16
 #define HF_VERSION_FIXED_UNLOCK                 18
+#define HF_VERSION_LONG_UNLOCK                  20
 #define HF_VERSION_BULLETPROOF_PLUS             18
 #define HF_VERSION_VIEW_TAGS                    20
 #define HF_VERSION_2021_SCALING                 20
