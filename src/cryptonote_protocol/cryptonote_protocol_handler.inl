@@ -1687,7 +1687,7 @@ namespace cryptonote
             switch (num)
             {
                 case 1:
-                    MGINFO_MAGENTA("*•.¸♡ ♡¸.•* sy︎n︎c︎e︎d *•.¸♡ ♡¸.•* " << current_blockchain_height << "/" << target_blockchain_height << progress_message << timing_message << " ˚ ༘♡ ⋆｡˚");
+                    MGINFO_MAGENTA("*•.¸♡ ♡¸.•* synced *•.¸♡ ♡¸.•* " << current_blockchain_height << "/" << target_blockchain_height << progress_message << timing_message << " ˚ ༘♡ ⋆｡˚");
                     break;
                 case 2:
                     MGINFO_YELLOW("ˏˋ°•*⁀➷ pǝɔuʎs ˏˋ°•*⁀➷ " << current_blockchain_height << "/" << target_blockchain_height << progress_message << timing_message << " ︶︶༉‧₊ ☄. *.⋆");
