@@ -2192,7 +2192,7 @@ namespace cryptonote
         return false;
       }
       b.nonce = req.starting_nonce;
-      if (b.major_version >= BLOCK_HEADER_MINER_SIG)
+      if (b.major_version >= BLOCK_HEADER_MINER_SIG && b.major_version < REMOVED_BLOCK_HEADER_MINER_SIG)
       {
           b.signature = {};
           b.vote = 0;
