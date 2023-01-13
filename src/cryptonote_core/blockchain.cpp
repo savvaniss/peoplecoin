@@ -875,7 +875,7 @@ start:
   ss << "Re-locked, height " << height << ", tail id " << new_top_hash << (new_top_hash == top_hash ? "" : " (different)") << std::endl;
   top_hash = new_top_hash;
   uint8_t version = get_current_hard_fork_version();
-  uint64_t difficulty_blocks_count = version <= 17 && version >= 11 ? DIFFICULTY_BLOCKS_COUNT_V3 : version <= 10 && version >= 8 ? DIFFICULTY_BLOCKS_COUNT_V2 : DIFFICULTY_BLOCKS_COUNT;
+  uint64_t difficulty_blocks_count = version >= 20 ? DIFFICULTY_BLOCKS_COUNT_V4 : version <= 17 && version >= 11 ? DIFFICULTY_BLOCKS_COUNT_V3 : version <= 10 && version >= 8 ? DIFFICULTY_BLOCKS_COUNT_V2 : DIFFICULTY_BLOCKS_COUNT;
 
   // ND: Speedup
   // 1. Keep a list of the last 735 (or less) blocks that is used to compute difficulty,
@@ -955,7 +955,9 @@ start:
   uint64_t HEIGHT = m_db->height();
   difficulty_type diff = next_difficulty(timestamps, difficulties, target, HEIGHT);
 
-  if (version <= 17 && version >= 11) {
+  if (version >= 20) {
+    diff = next_difficulty_v6(timestamps, difficulties, target, HEIGHT);
+  } else if (version <= 17 && version >= 11) {
     diff = next_difficulty_v5(timestamps, difficulties, HEIGHT);
   } else if (version == 10) {
     diff = next_difficulty_v4(timestamps, difficulties, HEIGHT);
@@ -1049,7 +1051,9 @@ size_t Blockchain::recalculate_difficulties(boost::optional<uint64_t> start_heig
     size_t target = DIFFICULTY_TARGET_V2;
     difficulty_type recalculated_diff = next_difficulty(timestamps, difficulties, target, HEIGHT);
 
-    if (version <= 17 && version >= 11) {
+    if (version >= 20) {
+      recalculated_diff = next_difficulty_v6(timestamps, difficulties, target, HEIGHT);
+    } else if (version <= 17 && version >= 11) {
       recalculated_diff = next_difficulty_v5(timestamps, difficulties, HEIGHT);
     } else if (version == 10) {
       recalculated_diff = next_difficulty_v4(timestamps, difficulties, HEIGHT);
@@ -1369,7 +1373,9 @@ difficulty_type Blockchain::get_next_difficulty_for_alternative_chain(const std:
 
   // calculate the difficulty target for the block and return it
   difficulty_type next_diff = next_difficulty(timestamps, cumulative_difficulties, target, HEIGHT);
-  if (version <= 17 && version >= 11) {
+  if (version >= 20) {
+    next_diff = next_difficulty_v6(timestamps, cumulative_difficulties, target, HEIGHT);
+  } else if (version <= 17 && version >= 11) {
     next_diff = next_difficulty_v5(timestamps, cumulative_difficulties, HEIGHT);
   } else if (version == 10) {
     next_diff = next_difficulty_v4(timestamps, cumulative_difficulties, HEIGHT);
@@ -1443,7 +1449,11 @@ bool Blockchain::prevalidate_miner_transaction(const block& b, uint64_t height, 
   }
   MDEBUG("Miner tx hash: " << get_transaction_hash(b.miner_tx));
 
-  if (hf_version >= HF_VERSION_FIXED_UNLOCK)
+  if (hf_version >= HF_VERSION_LONG_UNLOCK)
+  {
+    CHECK_AND_ASSERT_MES(b.miner_tx.unlock_time == height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_LONG, false, "coinbase transaction transaction has the wrong unlock time="
+      << b.miner_tx.unlock_time << ", expected " << height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_LONG);
+  } else if (hf_version >= HF_VERSION_FIXED_UNLOCK)
   {
     CHECK_AND_ASSERT_MES(b.miner_tx.unlock_time == height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_V2, false, "coinbase transaction transaction has the wrong unlock time="
       << b.miner_tx.unlock_time << ", expected " << height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_V2);
