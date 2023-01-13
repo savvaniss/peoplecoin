@@ -1392,7 +1392,7 @@ difficulty_type Blockchain::get_next_difficulty_for_alternative_chain(const std:
 bool Blockchain::prevalidate_miner_transaction(const block& b, uint64_t height, uint8_t hf_version)
 {
   // Miner Block Header Signing
-  if (hf_version >= BLOCK_HEADER_MINER_SIG && hf_version < REMOVED_BLOCK_HEADER_MINER_SIG)
+  if (hf_version >= BLOCK_HEADER_MINER_SIG)
   {
       // sanity checks
       if (b.miner_tx.vout.size() != 1)

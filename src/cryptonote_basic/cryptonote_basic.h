@@ -470,7 +470,7 @@ namespace cryptonote
       VARINT_FIELD(timestamp)
       FIELD(prev_id)
       FIELD(nonce)
-      if (major_version >= BLOCK_HEADER_MINER_SIG && major_version < REMOVED_BLOCK_HEADER_MINER_SIG)
+      if (major_version >= BLOCK_HEADER_MINER_SIG)
       {
           FIELD(signature)
           FIELD(vote)
