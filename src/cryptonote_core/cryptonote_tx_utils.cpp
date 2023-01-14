@@ -173,8 +173,8 @@ namespace cryptonote
     //lock
     if (hard_fork_version >= HF_VERSION_LONG_UNLOCK)
     {
-      tx.unlock_time = height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_LONG;
-    } else if (hard_fork_version >= HF_VERSION_FIXED_UNLOCK)
+      tx.unlock_time = height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_V3;
+    } else if (hard_fork_version < HF_VERSION_LONG_UNLOCK && hard_fork_version >= HF_VERSION_FIXED_UNLOCK)
     {
       tx.unlock_time = height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_V2;
     } else if (hard_fork_version < HF_VERSION_FIXED_UNLOCK && hard_fork_version >= HF_VERSION_DYNAMIC_UNLOCK)

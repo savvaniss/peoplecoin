@@ -40,9 +40,9 @@
 #define CRYPTONOTE_MAX_TX_SIZE                          1000000
 #define CRYPTONOTE_MAX_TX_PER_BLOCK                     0x10000000
 #define CRYPTONOTE_PUBLIC_ADDRESS_TEXTBLOB_VER          0
+#define CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_V3         262800 // 6 months
 #define CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_V2         288
 #define CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW            60
-#define CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_LONG       262800 // 6 months
 #define CURRENT_TRANSACTION_VERSION                     2
 #define CURRENT_BLOCK_MAJOR_VERSION                     7
 #define CURRENT_BLOCK_MINOR_VERSION                     7

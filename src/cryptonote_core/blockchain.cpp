@@ -1445,8 +1445,8 @@ bool Blockchain::prevalidate_miner_transaction(const block& b, uint64_t height, 
 
   if (hf_version >= HF_VERSION_LONG_UNLOCK)
   {
-    CHECK_AND_ASSERT_MES(b.miner_tx.unlock_time == height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_LONG, false, "coinbase transaction transaction has the wrong unlock time="
-      << b.miner_tx.unlock_time << ", expected " << height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_LONG);
+    CHECK_AND_ASSERT_MES(b.miner_tx.unlock_time == height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_V3, false, "coinbase transaction transaction has the wrong unlock time="
+      << b.miner_tx.unlock_time << ", expected " << height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_V3);
   } else if (hf_version >= HF_VERSION_FIXED_UNLOCK)
   {
     CHECK_AND_ASSERT_MES(b.miner_tx.unlock_time == height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_V2, false, "coinbase transaction transaction has the wrong unlock time="
