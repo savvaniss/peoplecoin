@@ -1394,41 +1394,45 @@ bool Blockchain::prevalidate_miner_transaction(const block& b, uint64_t height, 
   bool isSignatureValid = true;
 
   // Miner Block Header Signing
-  if (hf_version >= BLOCK_HEADER_MINER_SIG)
-  {
-      // sanity checks
-      if (b.miner_tx.vout.size() != 1)
-      {
-          MWARNING("Only 1 output in miner transaction allowed");
-          return false;
+  if (hf_version >= BLOCK_HEADER_MINER_SIG) {
+    // sanity checks
+    if (b.vote > 2) {
+      MWARNING("Vote integer must be either 0, 1, or 2");
+      return false;
+    }
+
+    if (b.miner_tx.vout.size() != 1) {
+      if (hf_version < OPTIONAL_BLOCK_HEADER_MINER_SIG) {
+        MWARNING("Only 1 output in miner transaction allowed");
+        return false;
       }
-      if (b.miner_tx.vout[0].target.type() != typeid(txout_to_key))
-      {
+      isSignatureValid = false;
+    } else {
+      if (b.miner_tx.vout[0].target.type() != typeid(txout_to_key)) {
+        if (hf_version < OPTIONAL_BLOCK_HEADER_MINER_SIG) {
           MWARNING("Wrong txout type");
           return false;
-      }
-      if (b.vote > 2)
-      {
-          MWARNING("Vote integer must be either 0, 1, or 2");
-          return false;
-      }
-      // keccak hash block header data and check miner signature
-      // if signature is invalid, reject block
-      crypto::hash sig_data = get_sig_data(b);
-      crypto::signature signature = b.signature;
-      crypto::public_key eph_pub_key = boost::get<txout_to_key>(b.miner_tx.vout[0].target).key;
-      if (!crypto::check_signature(sig_data, eph_pub_key, signature))
-      {
-        if (hf_version < OPTIONAL_BLOCK_HEADER_MINER_SIG)
-        {
-            MWARNING("Miner signature is invalid");
-            return false;
         }
         isSignatureValid = false;
       } else {
+        // keccak hash block header data and check miner signature
+        // if signature is invalid, reject block
+        crypto::hash sig_data = get_sig_data(b);
+        crypto::signature signature = b.signature;
+        crypto::public_key eph_pub_key =
+            boost::get<txout_to_key>(b.miner_tx.vout[0].target).key;
+        if (!crypto::check_signature(sig_data, eph_pub_key, signature)) {
+          if (hf_version < OPTIONAL_BLOCK_HEADER_MINER_SIG) {
+            MWARNING("Miner signature is invalid");
+            return false;
+          }
+          isSignatureValid = false;
+        } else {
           LOG_PRINT_L1("Miner signature is good");
           LOG_PRINT_L1("Vote: " << b.vote);
+        }
       }
+    }
   }
 
   LOG_PRINT_L3("Blockchain::" << __func__);
