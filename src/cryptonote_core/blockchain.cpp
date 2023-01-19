@@ -1391,6 +1391,8 @@ difficulty_type Blockchain::get_next_difficulty_for_alternative_chain(const std:
 //   valid output types
 bool Blockchain::prevalidate_miner_transaction(const block& b, uint64_t height, uint8_t hf_version)
 {
+  bool isSignatureValid = true;
+
   // Miner Block Header Signing
   if (hf_version >= BLOCK_HEADER_MINER_SIG)
   {
@@ -1417,8 +1419,12 @@ bool Blockchain::prevalidate_miner_transaction(const block& b, uint64_t height, 
       crypto::public_key eph_pub_key = boost::get<txout_to_key>(b.miner_tx.vout[0].target).key;
       if (!crypto::check_signature(sig_data, eph_pub_key, signature))
       {
-          MWARNING("Miner signature is invalid");
-          return false;
+        if (hf_version < OPTIONAL_BLOCK_HEADER_MINER_SIG)
+        {
+            MWARNING("Miner signature is invalid");
+            return false;
+        }
+        isSignatureValid = false;
       } else {
           LOG_PRINT_L1("Miner signature is good");
           LOG_PRINT_L1("Vote: " << b.vote);
@@ -1445,8 +1451,13 @@ bool Blockchain::prevalidate_miner_transaction(const block& b, uint64_t height, 
 
   if (hf_version >= HF_VERSION_LONG_UNLOCK)
   {
-    CHECK_AND_ASSERT_MES(b.miner_tx.unlock_time == height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_V3, false, "coinbase transaction transaction has the wrong unlock time="
-      << b.miner_tx.unlock_time << ", expected " << height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_V3);
+    if (isSignatureValid) {
+      CHECK_AND_ASSERT_MES(b.miner_tx.unlock_time == height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_V3_SOLO, false, "coinbase transaction transaction has the wrong unlock time="
+        << b.miner_tx.unlock_time << ", expected " << height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_V3_SOLO);
+    } else {
+      CHECK_AND_ASSERT_MES(b.miner_tx.unlock_time == height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_V3, false, "coinbase transaction transaction has the wrong unlock time="
+        << b.miner_tx.unlock_time << ", expected " << height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_V3);
+    }
   } else if (hf_version >= HF_VERSION_FIXED_UNLOCK)
   {
     CHECK_AND_ASSERT_MES(b.miner_tx.unlock_time == height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_V2, false, "coinbase transaction transaction has the wrong unlock time="
