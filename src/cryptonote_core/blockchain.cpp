@@ -874,7 +874,7 @@ start:
   ss << "Re-locked, height " << height << ", tail id " << new_top_hash << (new_top_hash == top_hash ? "" : " (different)") << std::endl;
   top_hash = new_top_hash;
   uint8_t version = get_current_hard_fork_version();
-  uint64_t difficulty_blocks_count = version <= 17 && version >= 11 ? DIFFICULTY_BLOCKS_COUNT_V3 : version <= 10 && version >= 8 ? DIFFICULTY_BLOCKS_COUNT_V2 : DIFFICULTY_BLOCKS_COUNT;
+  uint64_t difficulty_blocks_count = version >= 20 ? DIFFICULTY_BLOCKS_COUNT_V4 : version <= 17 && version >= 11 ? DIFFICULTY_BLOCKS_COUNT_V3 : version <= 10 && version >= 8 ? DIFFICULTY_BLOCKS_COUNT_V2 : DIFFICULTY_BLOCKS_COUNT;
 
   // ND: Speedup
   // 1. Keep a list of the last 735 (or less) blocks that is used to compute difficulty,
@@ -954,7 +954,9 @@ start:
   uint64_t HEIGHT = m_db->height();
   difficulty_type diff = next_difficulty(timestamps, difficulties, target, HEIGHT);
 
-  if (version <= 17 && version >= 11) {
+  if (version >= 20) {
+    diff = next_difficulty_v6(timestamps, difficulties, target);
+  } else if (version <= 17 && version >= 11) {
     diff = next_difficulty_v5(timestamps, difficulties, HEIGHT);
   } else if (version == 10) {
     diff = next_difficulty_v4(timestamps, difficulties, HEIGHT);
@@ -1021,7 +1023,7 @@ size_t Blockchain::recalculate_difficulties(boost::optional<uint64_t> start_heig
   const uint64_t top_height = m_db->height() - 1;
   MGINFO("Recalculating difficulties from height " << start_height << " to height " << top_height);
   uint8_t version = get_current_hard_fork_version();
-  uint64_t difficulty_blocks_count = version <= 17 && version >= 11 ? DIFFICULTY_BLOCKS_COUNT_V3 : version <= 10 && version >= 8 ? DIFFICULTY_BLOCKS_COUNT_V2 : DIFFICULTY_BLOCKS_COUNT;
+  uint64_t difficulty_blocks_count = version >= 20 ? DIFFICULTY_BLOCKS_COUNT_V4 : version <= 17 && version >= 11 ? DIFFICULTY_BLOCKS_COUNT_V3 : version <= 10 && version >= 8 ? DIFFICULTY_BLOCKS_COUNT_V2 : DIFFICULTY_BLOCKS_COUNT;
   std::vector<uint64_t> timestamps;
   std::vector<difficulty_type> difficulties;
   timestamps.reserve(difficulty_blocks_count + 1);
@@ -1048,7 +1050,9 @@ size_t Blockchain::recalculate_difficulties(boost::optional<uint64_t> start_heig
     size_t target = DIFFICULTY_TARGET_V2;
     difficulty_type recalculated_diff = next_difficulty(timestamps, difficulties, target, HEIGHT);
 
-    if (version <= 17 && version >= 11) {
+    if (version >= 20) {
+      recalculated_diff = next_difficulty_v6(timestamps, difficulties, target);
+    } else if (version <= 17 && version >= 11) {
       recalculated_diff = next_difficulty_v5(timestamps, difficulties, HEIGHT);
     } else if (version == 10) {
       recalculated_diff = next_difficulty_v4(timestamps, difficulties, HEIGHT);
@@ -1310,7 +1314,7 @@ difficulty_type Blockchain::get_next_difficulty_for_alternative_chain(const std:
   std::vector<difficulty_type> cumulative_difficulties;
 
   uint8_t version = get_current_hard_fork_version();
-  size_t difficulty_blocks_count = version <= 17 && version >= 11 ? DIFFICULTY_BLOCKS_COUNT_V3 : version <= 10 && version >= 8 ? DIFFICULTY_BLOCKS_COUNT_V2 : DIFFICULTY_BLOCKS_COUNT;
+  size_t difficulty_blocks_count = version >= 20 ? DIFFICULTY_BLOCKS_COUNT_V4 : version <= 17 && version >= 11 ? DIFFICULTY_BLOCKS_COUNT_V3 : version <= 10 && version >= 8 ? DIFFICULTY_BLOCKS_COUNT_V2 : DIFFICULTY_BLOCKS_COUNT;
 
   // if the alt chain isn't long enough to calculate the difficulty target
   // based on its blocks alone, need to get more blocks from the main chain
@@ -1368,7 +1372,9 @@ difficulty_type Blockchain::get_next_difficulty_for_alternative_chain(const std:
 
   // calculate the difficulty target for the block and return it
   difficulty_type next_diff = next_difficulty(timestamps, cumulative_difficulties, target, HEIGHT);
-  if (version <= 17 && version >= 11) {
+  if (version >= 20) {
+    next_difficulty_v6(timestamps, cumulative_difficulties, target);
+  } else if (version <= 17 && version >= 11) {
     next_diff = next_difficulty_v5(timestamps, cumulative_difficulties, HEIGHT);
   } else if (version == 10) {
     next_diff = next_difficulty_v4(timestamps, cumulative_difficulties, HEIGHT);
