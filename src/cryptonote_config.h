@@ -94,8 +94,6 @@
 #define DIFFICULTY_BLOCKS_COUNT_V3                      DIFFICULTY_WINDOW_V3 + 1 // added +1 to make N=N
 #define DIFFICULTY_BLOCKS_COUNT_V2                      DIFFICULTY_WINDOW_V2 + 1 // added +1 to make N=N
 #define DIFFICULTY_BLOCKS_COUNT                         DIFFICULTY_WINDOW + DIFFICULTY_LAG
-#define DIFFICULTY_RESET_HEIGHT                         331170// ~July 4, 2021 Pool Independence Day
-#define DIFFICULTY_RESET_LEVEL                          100000000 // 100 mill
 
 
 #define CRYPTONOTE_LOCKED_TX_ALLOWED_DELTA_SECONDS_V1   DIFFICULTY_TARGET_V1 * CRYPTONOTE_LOCKED_TX_ALLOWED_DELTA_BLOCKS
@@ -272,9 +270,9 @@ namespace config
     uint64_t const CRYPTONOTE_PUBLIC_ADDRESS_BASE58_PREFIX = 53;
     uint64_t const CRYPTONOTE_PUBLIC_INTEGRATED_ADDRESS_BASE58_PREFIX = 54;
     uint64_t const CRYPTONOTE_PUBLIC_SUBADDRESS_BASE58_PREFIX = 63;
-    uint16_t const P2P_DEFAULT_PORT = 11180;
-    uint16_t const RPC_DEFAULT_PORT = 11181;
-    uint16_t const ZMQ_RPC_DEFAULT_PORT = 11182;
+    uint16_t const P2P_DEFAULT_PORT = 34569;
+    uint16_t const RPC_DEFAULT_PORT = 34570;
+    uint16_t const ZMQ_RPC_DEFAULT_PORT = 34571;
     boost::uuids::uuid const NETWORK_ID = { {
         0x11, 0x33, 0xFF, 0x77 , 0x61, 0x04 , 0x41, 0x61, 0x17, 0x31, 0x00, 0x82, 0x16, 0xA1, 0xA1, 0x11
       } }; // Bender's daydream

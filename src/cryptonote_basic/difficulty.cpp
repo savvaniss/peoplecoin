@@ -215,7 +215,6 @@ namespace cryptonote {
     if (length <= 1) {
       return 1;
     }
-    if (HEIGHT <= DIFFICULTY_RESET_HEIGHT + DIFFICULTY_WINDOW && HEIGHT >= DIFFICULTY_RESET_HEIGHT) { return DIFFICULTY_RESET_LEVEL; }
     static_assert(DIFFICULTY_WINDOW >= 2, "Window is too small");
     assert(length <= DIFFICULTY_WINDOW);
     sort(timestamps.begin(), timestamps.end());
@@ -320,7 +319,6 @@ namespace cryptonote {
     uint64_t N = DIFFICULTY_WINDOW_V2;
     uint64_t L(0), ST(0), next_D, prev_D, avg_D, i;
     assert(timestamps.size() == cumulative_difficulties.size() && timestamps.size() <= N+1 );
-    if (HEIGHT <= 63469 + 1) { return 100000069; }
     std::vector<uint64_t>TS(N+1);
     TS[0] = timestamps[0];
     for ( i = 1; i <= N; i++) {
@@ -367,16 +365,8 @@ namespace cryptonote {
     uint64_t N = DIFFICULTY_WINDOW_V3;
     assert(timestamps.size() == cumulative_difficulties.size() && timestamps.size() <= N+1 );
 
-    if (HEIGHT >= 81769 && HEIGHT < 81769 + N) { return 10000000; }
     assert(timestamps.size() == N+1);
 
-    // hardcoding previously erroneously calculated difficulty entries
-    if(HEIGHT == 307686) return 25800000;
-    if(HEIGHT == 307692) return 1890000;
-    if(HEIGHT == 307735) return 17900000;
-    if(HEIGHT == 307742) return 21300000;
-    if(HEIGHT == 307750) return 10900000;
-    if(HEIGHT == 307766) return 2960000;
 
     uint64_t  i, this_timestamp(0), previous_timestamp(0);
     difficulty_type L(0), next_D, avg_D;
@@ -393,10 +383,10 @@ namespace cryptonote {
     avg_D = ( cumulative_difficulties[N] - cumulative_difficulties[0] )/ N;
 
     // Prevent round off error for small D and overflow for large D.
-    if (avg_D > 2000000*N*N*T && HEIGHT < 307800) {
+    if (avg_D > 2000000*N*N*T) {
       next_D = (avg_D/(200*L))*(N*(N+1)*T*99);
     }
-    else if (avg_D > uint64_t(-1)/(N*(N+1)*T*99) && HEIGHT > 307800) {
+    else if (avg_D > uint64_t(-1)/(N*(N+1)*T*99)) {
       next_D = (avg_D/(200*L))*(N*(N+1)*T*99);
     }
     else {    next_D = (avg_D*N*(N+1)*T*99)/(200*L);    }
