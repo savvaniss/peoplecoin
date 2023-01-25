@@ -184,10 +184,6 @@ namespace cryptonote
   {
     if (nettype == TESTNET)
     {
-      ADD_CHECKPOINT2(1,       "6c5a3febcd45fc05b99bf5260abacc178925e517b09a52214404fa9d86c90820", "0x65");
-      ADD_CHECKPOINT2(50,      "e59709f523573441c02ba3cceafb1c5d6756cbc246e9158215a9afbdf4f668b4", "0x1389");
-      ADD_CHECKPOINT2(100,     "ccb1cda16a62caaa85725f35ab0f8e4d90e9f7a05cac3dfd3f1f5f0d23a74358", "0x2711");
-      ADD_CHECKPOINT2(200,     "600320660dffa07f8de62931c68a186dc7e2a543733c98e6a5c78d1a373dbc8c", "0xc115");
       return true;
     }
     if (nettype == STAGENET)
