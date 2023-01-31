@@ -1462,7 +1462,18 @@ bool Blockchain::prevalidate_miner_transaction(const block& b, uint64_t height, 
     return false;
   }
   MDEBUG("Miner tx hash: " << get_transaction_hash(b.miner_tx));
-  CHECK_AND_ASSERT_MES(b.miner_tx.unlock_time == height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW, false, "coinbase transaction transaction has the wrong unlock time=" << b.miner_tx.unlock_time << ", expected " << height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW);
+  if (hf_version >= HF_VERSION_FIXED_UNLOCK) {
+    CHECK_AND_ASSERT_MES(b.miner_tx.unlock_time == height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_V2, false, "coinbase transaction transaction has the wrong unlock time=" << b.miner_tx.unlock_time << ", expected " << height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW_V2);
+  } else if (hf_version < HF_VERSION_FIXED_UNLOCK && hf_version >= HF_VERSION_DYNAMIC_UNLOCK) {
+    uint64_t N = m_nettype == MAINNET ? 1337 : 5;
+    crypto::hash blk_id = get_block_id_by_height(height-N);
+    std::string hex_str = epee::string_tools::pod_to_hex(blk_id).substr(0, 3);
+    uint64_t blk_num = std::stol(hex_str,nullptr,16)*2;
+    uint64_t unlock_window = blk_num + 288;
+    CHECK_AND_ASSERT_MES(b.miner_tx.unlock_time == height + unlock_window, false, "coinbase transaction transaction has the wrong unlock time=" << b.miner_tx.unlock_time << ", expected " << height + unlock_window);
+  } else {
+    CHECK_AND_ASSERT_MES(b.miner_tx.unlock_time == height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW, false, "coinbase transaction transaction has the wrong unlock time=" << b.miner_tx.unlock_time << ", expected " << height + CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW);
+  }
 
   //check outs overflow
   if(!check_outs_overflow(b.miner_tx))
