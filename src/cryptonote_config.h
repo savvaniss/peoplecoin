@@ -204,7 +204,7 @@
 #define PER_KB_FEE_QUANTIZATION_DECIMALS        8
 #define CRYPTONOTE_SCALING_2021_FEE_ROUNDING_PLACES 2
 
-#define MIN_MINER_OUTPUTS                       50
+#define MIN_MINER_OUTPUTS                       10
 
 #define HASH_OF_HASHES_STEP                     512
 
