@@ -1286,6 +1286,8 @@ namespace cryptonote
           add_reason(reason, "fee too low");
         if ((res.too_few_outputs = tvc.m_too_few_outputs))
           add_reason(reason, "too few outputs");
+        if ((res.two_outputs = tvc.m_two_outputs))
+          add_reason(reason, "only two outputs allowed");
         const std::string punctuation = reason.empty() ? "" : ": ";
         if (tvc.m_verifivation_failed)
         {
@@ -2201,7 +2203,7 @@ namespace cryptonote
         return false;
       }
       b.nonce = req.starting_nonce;
-      if (b.major_version >= HF_VERSION_BLOCK_HEADER_MINER_SIG)
+      if (b.major_version >= HF_VERSION_BLOCK_HEADER_MINER_SIG && b.major_version < HF_VERSION_P2POOL)
       {
           b.signature = {};
           b.vote = 0;

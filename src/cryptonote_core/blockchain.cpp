@@ -1412,7 +1412,7 @@ difficulty_type Blockchain::get_next_difficulty_for_alternative_chain(const std:
 bool Blockchain::prevalidate_miner_transaction(const block& b, uint64_t height, uint8_t hf_version)
 {
   // Miner Block Header Signing
-  if (hf_version >= HF_VERSION_BLOCK_HEADER_MINER_SIG)
+  if (hf_version >= HF_VERSION_BLOCK_HEADER_MINER_SIG && hf_version < HF_VERSION_P2POOL)
   {
       // sanity checks
       if (b.miner_tx.vout.size() != 1)
@@ -1443,6 +1443,19 @@ bool Blockchain::prevalidate_miner_transaction(const block& b, uint64_t height, 
           LOG_PRINT_L1("Miner signature is good");
           LOG_PRINT_L1("Vote: " << b.vote);
       }
+  }
+
+  if (hf_version >= HF_VERSION_P2POOL)
+  {
+    if (b.miner_tx.vout.size() < MIN_MINER_OUTPUTS)
+    {
+      MWARNING("Coinbase transaction must have more than " << MIN_MINER_OUTPUTS << " outputs");
+      return false;
+    }
+    for (const auto &o: b.miner_tx.vout)
+    {
+      CHECK_AND_ASSERT_MES(o.target.type() == typeid(txout_to_key), false, "Wrong txout type: " << o.target.type().name() << ", expected txout_to_key in transaction id=" << get_transaction_hash(b.miner_tx));
+    }
   }
 
   LOG_PRINT_L3("Blockchain::" << __func__);
@@ -3417,7 +3430,7 @@ bool Blockchain::check_tx_inputs(transaction& tx, tx_verification_context &tvc, 
 
   const uint8_t hf_version = m_hardfork->get_current_version();
 
-  if (hf_version >= HF_VERSION_MIN_2_OUTPUTS)
+  if (hf_version >= HF_VERSION_MIN_2_OUTPUTS && hf_version < HF_VERSION_ENFORCE_2_OUTPUTS)
   {
     if (tx.version >= 2)
     {
@@ -3427,6 +3440,22 @@ bool Blockchain::check_tx_inputs(transaction& tx, tx_verification_context &tvc, 
         tvc.m_too_few_outputs = true;
         return false;
       }
+    }
+  }
+
+  if (hf_version >= HF_VERSION_ENFORCE_2_OUTPUTS)
+  {
+    if (tx.vout.size() != 2)
+    {
+      MERROR_VER("Tx " << get_transaction_hash(tx) << " must have only two outputs");
+      tvc.m_two_outputs = true;
+      return false;
+    }
+    // cap the size of TX extra field
+    if (tx.extra.size() > 44)
+    {
+      MERROR_VER("TX extra field is too large");
+      return false;
     }
   }
 

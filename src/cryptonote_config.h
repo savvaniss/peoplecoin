@@ -183,6 +183,7 @@
 #define HF_VERSION_PER_BYTE_FEE                 12
 #define HF_VERSION_SMALLER_BP                   13
 #define HF_VERSION_LONG_TERM_BLOCK_WEIGHT       13
+#define HF_VERSION_ENFORCE_2_OUTPUTS            20
 #define HF_VERSION_MIN_2_OUTPUTS                15
 #define HF_VERSION_MIN_V2_COINBASE_TX           15
 #define HF_VERSION_SAME_MIXIN                   15
@@ -198,9 +199,12 @@
 #define HF_VERSION_VIEW_TAGS                    20
 #define HF_VERSION_2021_SCALING                 20
 #define HF_VERSION_BLOCK_HEADER_MINER_SIG       18
+#define HF_VERSION_P2POOL                       20
 
 #define PER_KB_FEE_QUANTIZATION_DECIMALS        8
 #define CRYPTONOTE_SCALING_2021_FEE_ROUNDING_PLACES 2
+
+#define MIN_MINER_OUTPUTS                       50
 
 #define HASH_OF_HASHES_STEP                     512
 

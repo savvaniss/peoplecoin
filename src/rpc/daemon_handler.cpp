@@ -422,6 +422,11 @@ namespace rpc
         if (!res.error_details.empty()) res.error_details += " and ";
         res.error_details += "too few outputs";
       }
+      if (tvc.m_two_outputs)
+      {
+        if (!res.error_details.empty()) res.error_details += " and ";
+        res.error_details += "only two outputs allowed";
+      }
       if (res.error_details.empty())
       {
         res.error_details = "an unknown issue was found with the transaction";
@@ -895,7 +900,7 @@ namespace rpc
     header.minor_version = b.minor_version;
     header.timestamp = b.timestamp;
     header.nonce = b.nonce;
-    if (b.major_version >= HF_VERSION_BLOCK_HEADER_MINER_SIG)
+    if (b.major_version >= HF_VERSION_BLOCK_HEADER_MINER_SIG && b.major_version < HF_VERSION_P2POOL)
     {
       header.signature = b.signature;
       header.vote = b.vote;

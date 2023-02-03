@@ -610,7 +610,7 @@ namespace cryptonote
       b.nonce = nonce;
 
       // Miner Block Header Signing
-      if (b.major_version >= HF_VERSION_BLOCK_HEADER_MINER_SIG)
+      if (b.major_version >= HF_VERSION_BLOCK_HEADER_MINER_SIG && b.major_version < HF_VERSION_P2POOL)
       {
         // tx key derivation
         crypto::key_derivation derivation;

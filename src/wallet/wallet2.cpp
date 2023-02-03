@@ -206,6 +206,8 @@ namespace
         add_reason(reason, "invalid output");
       if (res.too_few_outputs)
         add_reason(reason, "too few outputs");
+      if (res.two_outputs)
+        add_reason(reason, "only two outputs allowed");
       if (res.too_big)
         add_reason(reason, "too big");
       if (res.overspend)

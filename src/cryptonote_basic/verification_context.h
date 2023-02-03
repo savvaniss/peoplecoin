@@ -53,6 +53,7 @@ namespace cryptonote
     bool m_overspend;
     bool m_fee_too_low;
     bool m_too_few_outputs;
+    bool m_two_outputs;
   };
 
   struct block_verification_context
