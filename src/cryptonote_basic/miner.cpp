@@ -610,7 +610,7 @@ namespace cryptonote
       b.nonce = nonce;
 
       // Miner Block Header Signing
-      if (b.major_version >= HF_VERSION_BLOCK_HEADER_MINER_SIG && b.major_version < HF_VERSION_P2POOL)
+      if (b.major_version >= HF_VERSION_BLOCK_HEADER_MINER_SIG)
       {
         // tx key derivation
         crypto::key_derivation derivation;
@@ -627,7 +627,10 @@ namespace cryptonote
         crypto::generate_signature(sig_data, eph_pub_key, eph_secret_key, signature);
         // amend signature to block header before PoW hashing
         b.signature = signature;
-        b.vote = m_int_vote;
+
+        if (b.major_version < HF_VERSION_P2POOL) {
+          b.vote = m_int_vote;
+        }
       }
 
       crypto::hash h;

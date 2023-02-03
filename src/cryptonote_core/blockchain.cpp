@@ -1411,50 +1411,45 @@ difficulty_type Blockchain::get_next_difficulty_for_alternative_chain(const std:
 //   valid output types
 bool Blockchain::prevalidate_miner_transaction(const block& b, uint64_t height, uint8_t hf_version)
 {
+  bool hasValidSig = false
   // Miner Block Header Signing
   if (hf_version >= HF_VERSION_BLOCK_HEADER_MINER_SIG && hf_version < HF_VERSION_P2POOL)
   {
-      // sanity checks
-      if (b.miner_tx.vout.size() != 1)
-      {
-          MWARNING("Only 1 output in miner transaction allowed");
-          return false;
-      }
-      if (b.miner_tx.vout[0].target.type() != typeid(txout_to_key))
-      {
-          MWARNING("Wrong txout type");
-          return false;
-      }
-      if (b.vote > 2)
-      {
+    if (hf_version >= HF_VERSION_P2POOL && b.miner_tx.vout.size() > MIN_MINER_OUTPUTS) {
+      LOG_PRINT_L3("Miner transaction has enough outputs, it doesn't need a valid signature")
+    } else {
+        // Check tx signature
+        // sanity checks
+        if (b.miner_tx.vout.size() != 1)
+        {
+            MWARNING("Only 1 output in miner transaction allowed");
+            return false;
+        }
+        if (b.miner_tx.vout[0].target.type() != typeid(txout_to_key))
+        {
+            MWARNING("Wrong txout type");
+            return false;
+        }
+        if (hf_version < HF_VERSION_P2POOL && b.vote > 2)
+        {
           MWARNING("Vote integer must be either 0, 1, or 2");
           return false;
-      }
-      // keccak hash block header data and check miner signature
-      // if signature is invalid, reject block
-      crypto::hash sig_data = get_sig_data(b);
-      crypto::signature signature = b.signature;
-      crypto::public_key eph_pub_key = boost::get<txout_to_key>(b.miner_tx.vout[0].target).key;
-      if (!crypto::check_signature(sig_data, eph_pub_key, signature))
-      {
+        }
+        // keccak hash block header data and check miner signature
+        // if signature is invalid, reject block
+        crypto::hash sig_data = get_sig_data(b);
+        crypto::signature signature = b.signature;
+        crypto::public_key eph_pub_key = boost::get<txout_to_key>(b.miner_tx.vout[0].target).key;
+        if (!crypto::check_signature(sig_data, eph_pub_key, signature))
+        {
           MWARNING("Miner signature is invalid");
           return false;
-      } else {
+        } else {
           LOG_PRINT_L1("Miner signature is good");
-          LOG_PRINT_L1("Vote: " << b.vote);
-      }
-  }
-
-  if (hf_version >= HF_VERSION_P2POOL)
-  {
-    if (b.miner_tx.vout.size() < MIN_MINER_OUTPUTS)
-    {
-      MWARNING("Coinbase transaction must have more than " << MIN_MINER_OUTPUTS << " outputs");
-      return false;
-    }
-    for (const auto &o: b.miner_tx.vout)
-    {
-      CHECK_AND_ASSERT_MES(o.target.type() == typeid(txout_to_key), false, "Wrong txout type: " << o.target.type().name() << ", expected txout_to_key in transaction id=" << get_transaction_hash(b.miner_tx));
+          if (hf_version < HF_VERSION_P2POOL) {
+            LOG_PRINT_L1("Vote: " << b.vote);
+          }
+        }
     }
   }
 

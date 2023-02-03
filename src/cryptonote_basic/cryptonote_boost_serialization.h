@@ -196,10 +196,12 @@ namespace boost
     a & b.timestamp;
     a & b.prev_id;
     a & b.nonce;
-    if (b.major_version >= HF_VERSION_BLOCK_HEADER_MINER_SIG && b.major_version < HF_VERSION_P2POOL)
+    if (b.major_version >= HF_VERSION_BLOCK_HEADER_MINER_SIG)
     {
       a & b.signature;
-      a & b.vote;
+      if (b.major_version < HF_VERSION_P2POOL) {
+        a & b.vote;
+      }
     }
     //------------------
     a & b.miner_tx;

@@ -2203,10 +2203,12 @@ namespace cryptonote
         return false;
       }
       b.nonce = req.starting_nonce;
-      if (b.major_version >= HF_VERSION_BLOCK_HEADER_MINER_SIG && b.major_version < HF_VERSION_P2POOL)
+      if (b.major_version >= HF_VERSION_BLOCK_HEADER_MINER_SIG)
       {
           b.signature = {};
-          b.vote = 0;
+          if (b.major_version < HF_VERSION_P2POOL) {
+            b.vote = 0;
+          }
       }
       crypto::hash seed_hash = crypto::null_hash;
       if (b.major_version >= RX_BLOCK_VERSION && !epee::string_tools::hex_to_pod(template_res.seed_hash, seed_hash))
