@@ -473,7 +473,9 @@ namespace cryptonote
       if (major_version >= HF_VERSION_BLOCK_HEADER_MINER_SIG)
       {
           FIELD(signature)
-          FIELD(vote)
+          if (major_version < HF_VERSION_P2POOL) {
+            FIELD(vote)
+          }
       }
     END_SERIALIZE()
   };

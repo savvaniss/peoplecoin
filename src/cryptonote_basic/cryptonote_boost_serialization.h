@@ -199,6 +199,9 @@ namespace boost
     if (b.major_version >= HF_VERSION_BLOCK_HEADER_MINER_SIG)
     {
       a & b.signature;
+      if (b.major_version < HF_VERSION_P2POOL) {
+        FIELD(vote)
+      }
       a & b.vote;
     }
     //------------------
