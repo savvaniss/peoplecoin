@@ -898,7 +898,9 @@ namespace rpc
     if (b.major_version >= HF_VERSION_BLOCK_HEADER_MINER_SIG)
     {
       header.signature = b.signature;
-      header.vote = b.vote;
+      if (b.major_version < HF_VERSION_P2POOL) {
+        header.vote = b.vote;
+      }
     }
     header.prev_id = b.prev_id;
 

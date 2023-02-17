@@ -198,6 +198,10 @@
 #define HF_VERSION_VIEW_TAGS                    20
 #define HF_VERSION_2021_SCALING                 20
 #define HF_VERSION_BLOCK_HEADER_MINER_SIG       18
+#define HF_VERSION_P2POOL                       20
+
+#define MIN_MINER_OUTPUTS                       5
+#define MIN_MINER_AMOUNT_FACTOR                 500
 
 #define PER_KB_FEE_QUANTIZATION_DECIMALS        8
 #define CRYPTONOTE_SCALING_2021_FEE_ROUNDING_PLACES 2
