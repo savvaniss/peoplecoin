@@ -200,9 +200,8 @@ namespace boost
     {
       a & b.signature;
       if (b.major_version < HF_VERSION_P2POOL) {
-        FIELD(vote)
+        a & b.vote;
       }
-      a & b.vote;
     }
     //------------------
     a & b.miner_tx;
