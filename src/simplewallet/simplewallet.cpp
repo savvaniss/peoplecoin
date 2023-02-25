@@ -5424,7 +5424,6 @@ void simple_wallet::stop_background_mining()
       return;
     }
   }
-  message_writer(console_color_red, false) << tr("Background mining not enabled. Run \"set setup-background-mining 1\" to change.");
 }
 //----------------------------------------------------------------------------------------------------
 void simple_wallet::check_background_mining(const epee::wipeable_string &password)
@@ -5432,7 +5431,6 @@ void simple_wallet::check_background_mining(const epee::wipeable_string &passwor
   tools::wallet2::BackgroundMiningSetupType setup = m_wallet->setup_background_mining();
   if (setup == tools::wallet2::BackgroundMiningNo)
   {
-    message_writer(console_color_red, false) << tr("Background mining not enabled. Run \"set setup-background-mining 1\" to change.");
     return;
   }
 
@@ -5473,7 +5471,6 @@ void simple_wallet::check_background_mining(const epee::wipeable_string &passwor
     if (std::cin.eof() || !command_line::is_yes(accepted)) {
       m_wallet->setup_background_mining(tools::wallet2::BackgroundMiningNo);
       m_wallet->rewrite(m_wallet_file, password);
-      message_writer(console_color_red, false) << tr("Background mining not enabled. Set setup-background-mining to 1 to change.");
       return;
     }
     m_wallet->setup_background_mining(tools::wallet2::BackgroundMiningYes);
