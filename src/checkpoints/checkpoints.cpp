@@ -283,6 +283,8 @@ namespace cryptonote
 
     // All four MoneroPulse domains have DNSSEC on and valid
     static const std::vector<std::string> dns_urls = {
+      "checkpoints.wownero.com",
+      "checkpoints2.wownero.com",
     };
 
     static const std::vector<std::string> testnet_dns_urls = {
