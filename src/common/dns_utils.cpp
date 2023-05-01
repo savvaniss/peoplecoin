@@ -526,12 +526,12 @@ bool load_txt_records_from_dns(std::vector<std::string> &good_records, const std
     const std::string &url = dns_urls[cur_index];
     if (!avail[cur_index])
     {
-      records[cur_index].clear();
+      //records[cur_index].clear(); TODO: temp skipped DNSSEC
       LOG_PRINT_L2("DNSSEC not available for hostname: " << url << ", skipping.");
     }
     if (!valid[cur_index])
     {
-      records[cur_index].clear();
+      //records[cur_index].clear(); TODO: temp skipped DNSSEC
       LOG_PRINT_L2("DNSSEC validation failed for hostname: " << url << ", skipping.");
     }
 
