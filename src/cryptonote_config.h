@@ -81,13 +81,17 @@
 
 #define DIFFICULTY_TARGET_V2                            300  // seconds
 #define DIFFICULTY_TARGET_V1                            300  // seconds - before first fork
+#define DIFFICULTY_WINDOW_V4                            42   // 3 hours and half
 #define DIFFICULTY_WINDOW_V3                            144
 #define DIFFICULTY_WINDOW_V2                            60
 #define DIFFICULTY_WINDOW                               720 // blocks
+#define DIFFICULTY_LAG_V3                               0
 #define DIFFICULTY_LAG_V2                               3
 #define DIFFICULTY_LAG                                  15  // !!!
+#define DIFFICULTY_CUT_V3                               0
 #define DIFFICULTY_CUT_V2                               12
 #define DIFFICULTY_CUT                                  60  // timestamps to cut after sorting
+#define DIFFICULTY_BLOCKS_COUNT_V5                      DIFFICULTY_WINDOW_V4 + DIFFICULTY_LAG_V3
 #define DIFFICULTY_BLOCKS_COUNT_V4                      DIFFICULTY_WINDOW_V3 + DIFFICULTY_LAG_V2
 #define DIFFICULTY_BLOCKS_COUNT_V3                      DIFFICULTY_WINDOW_V3 + 1
 #define DIFFICULTY_BLOCKS_COUNT_V2                      DIFFICULTY_WINDOW_V2 + 1
