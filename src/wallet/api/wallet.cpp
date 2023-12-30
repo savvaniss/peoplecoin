@@ -1677,13 +1677,13 @@ PendingTransaction* WalletImpl::restoreMultisigTransaction(const string& signDat
 //    - unconfirmed_transfer_details;
 //    - confirmed_transfer_details)
 
-PendingTransaction *WalletImpl::createTransactionMultDest(const std::vector<string> &dst_addr, const string &payment_id, optional<std::vector<uint64_t>> amount, uint32_t mixin_count, PendingTransaction::Priority priority, uint32_t subaddr_account, std::set<uint32_t> subaddr_indices)
+PendingTransaction *WalletImpl::createTransactionMultDest(const std::vector<string> &dst_addr, const string &payment_id, optional<std::vector<uint64_t>> amount, uint32_t mixin_count, PendingTransaction::Priority priority, uint32_t subaddr_account, std::set<uint32_t> subaddr_indices, const std::set<std::string> &preferred_inputs)
 
 {
     clearStatus();
     // Pause refresh thread while creating transaction
     pauseRefresh();
-      
+
     cryptonote::address_parse_info info;
 
     uint32_t adjusted_priority = m_wallet->adjust_priority(static_cast<uint32_t>(priority));
@@ -1743,6 +1743,19 @@ PendingTransaction *WalletImpl::createTransactionMultDest(const std::vector<stri
                 }
             }
         }
+        std::vector<crypto::key_image> preferred_input_list;
+        if (!preferred_inputs.empty()) {
+          for (const auto &public_key : preferred_inputs) {
+            crypto::key_image keyImage;
+            bool r = epee::string_tools::hex_to_pod(public_key, keyImage);
+            if (!r) {
+              error = true;
+              setStatusError(tr("failed to parse key image"));
+              break;
+            }
+            preferred_input_list.push_back(keyImage);
+          }
+        }
         if (error) {
             break;
         }
@@ -1757,11 +1770,11 @@ PendingTransaction *WalletImpl::createTransactionMultDest(const std::vector<stri
             if (amount) {
                 transaction->m_pending_tx = m_wallet->create_transactions_2(dsts, fake_outs_count, 0 /* unlock_time */,
                                                                             adjusted_priority,
-                                                                            extra, subaddr_account, subaddr_indices);
+                                                                            extra, subaddr_account, subaddr_indices, preferred_input_list);
             } else {
                 transaction->m_pending_tx = m_wallet->create_transactions_all(0, info.address, info.is_subaddress, 1, fake_outs_count, 0 /* unlock_time */,
                                                                               adjusted_priority,
-                                                                              extra, subaddr_account, subaddr_indices);
+                                                                              extra, subaddr_account, subaddr_indices, preferred_input_list);
             }
             pendingTxPostProcess(transaction);
 
@@ -1842,10 +1855,10 @@ PendingTransaction *WalletImpl::createTransactionMultDest(const std::vector<stri
 }
 
 PendingTransaction *WalletImpl::createTransaction(const string &dst_addr, const string &payment_id, optional<uint64_t> amount, uint32_t mixin_count,
-                                                  PendingTransaction::Priority priority, uint32_t subaddr_account, std::set<uint32_t> subaddr_indices)
+                                                  PendingTransaction::Priority priority, uint32_t subaddr_account, std::set<uint32_t> subaddr_indices, const std::set<std::string> &preferred_inputs)
 
 {
-    return createTransactionMultDest(std::vector<string> {dst_addr}, payment_id, amount ? (std::vector<uint64_t> {*amount}) : (optional<std::vector<uint64_t>>()), mixin_count, priority, subaddr_account, subaddr_indices);
+    return createTransactionMultDest(std::vector<string> {dst_addr}, payment_id, amount ? (std::vector<uint64_t> {*amount}) : (optional<std::vector<uint64_t>>()), mixin_count, priority, subaddr_account, subaddr_indices, preferred_inputs);
 }
 
 PendingTransaction *WalletImpl::createTransactionSingle(const string &key_image, const string &dst_addr,

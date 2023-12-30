@@ -84,6 +84,7 @@ namespace Monero {
             ci->m_unlocked = m_wallet->m_wallet->is_transfer_unlocked(td);
             ci->m_pubKey = string_tools::pod_to_hex(td.get_public_key());
             ci->m_coinbase = td.m_tx.vin.size() == 1 && td.m_tx.vin[0].type() == typeid(cryptonote::txin_gen);
+            ci->m_description = m_wallet->m_wallet->get_tx_note(td.m_txid);
 
             m_rows.push_back(ci);
         }
