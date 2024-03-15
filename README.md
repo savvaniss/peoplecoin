@@ -1,7 +1,12 @@
-# ~~Mo~~Wownero -  Such privacy! Many coins! Wow! 🐕
+# ~~Mo~~Wownero -  Such privacy! Many coins! Wow!
 
-Copyright (c) 2014-2023 The Monero Project.   
-Portions Copyright (c) 2012-2013 The Cryptonote developers.
+[<img src="https://suchwow.xyz/data/suchwow/image/to23moqn.jpeg">](https://suchwow.xyz/s/oh-really-9eda16b2/item)
+
+## Introduction
+
+Wownero is a Doge-inspired, CPU-mineable, solo-mining only, privacy-respecting memecoin. It was fairly launched on April Fools' Day in 2018. It is a software fork of Monero, but with a lite version of RandomX, larger ring size, and a fixed supply of 184 million coins emitted over 50 years. Wownero has no trusted setup, premine, or dev tax. Besides betting on online snail racing, the main use case of Wownero is micro-tipping meme creators with sound magic internet money. As a 100% community-driven, free and open source software, Wownero does not depend on billionaire shills or lame ass "influencers."
+
+Unlike Opposing Projects.
 
 ## Resources
 
@@ -11,32 +16,35 @@ Portions Copyright (c) 2012-2013 The Cryptonote developers.
 - Reddit: [/r/wownero](https://www.reddit.com/r/wownero)
 - Mail: [wownero@wownero.org](mailto:wownero@wownero.org)
 - Git: [git.wownero.com/wownero/wownero](https://git.wownero.com/wownero/wownero)
-- Wownero Funding System: [funding.wownero.com](https://funding.wownero.com)
 - Wownero Forum: [forum.wownero.com](https://forum.wownero.com)
 - Discord: [discord.gg/ykZyAzJhDK](https://discord.com/invite/ykZyAzJhDK)
 - Telegram: [t.me/wownero](https://t.me/wownero)
-- Wowlet Desktop Wallet: [git.wownero.com/wowlet/wowlet](https://git.wownero.com/wowlet/wowlet/releases)
-- Stack Wallet iOS & Android Mobile Wallet: [stackwallet.com](https://stackwallet.com)
-- Wonerujo Android Mobile Wallet: [google store](https://play.google.com/store/apps/details?id=com.m2049r.wowwallet)
-- Elite Wallet Android Mobile Wallet: [github](https://github.com/Elite-Labs/EliteWallet)
-- Public Node Status: [monero.fail](https://monero.fail/?crypto=wownero)
+- Public Node Status: [monero.fail](https://monero.fail/?chain=wownero&network=mainnet)
 - Wownero Memes: [suchwow.xyz](https://suchwow.xyz/posts/top)
 - Market Info: [coinmarketcap.com](https://coinmarketcap.com/currencies/wownero), [coingecko.com](https://www.coingecko.com/en/coins/wownero/usd)
 
 ## Exchanges
 
+- [NonKYC](https://nonkyc.io/market/WOW_BTC)
+- [neroswap](https://neroswap.com)
 - [AltQuick](https://altquick.com/market/Wownero)
 - [Majestic Bank](https://majesticbank.sc)
 - [TradeOgre](https://tradeogre.com/exchange/BTC-WOW)
 
-### Blockchain Explorers
+## Wallets
+
+- Wonero CLI Wallet: [git.wownero.com/wownero/wownero](https://git.wownero.com/wownero/wownero/releases)
+- Wowlet Desktop Wallet: [git.wownero.com/wowlet/wowlet](https://git.wownero.com/wowlet/wowlet/releases)
+- Stack Wallet iOS & Android Mobile Wallet: [stackwallet.com](https://stackwallet.com)
+- Wonerujo Android Mobile Wallet: [google store](https://play.google.com/store/apps/details?id=com.m2049r.wowwallet)
+- Elite Wallet Android Mobile Wallet: [github](https://github.com/Elite-Labs/EliteWallet)
+
+## Blockchain Explorers
 
 - https://explore.wownero.com
-- https://muchwow.lol
+- https://explorer.suchwow.xyz
+- https://kryfi.com/explorer/wownero
 
-## Introduction
-
-Wownero is a privacy-centric memecoin that was fairly launched on April 1, 2018 with no pre-mine, stealth-mine or ICO. Wownero has a maximum supply of around 184 million WOW with a slow and steady emission over 50 years. It is a fork of Monero, but with its own genesis block, so there is no degradation of privacy due to ring signatures using different participants for the same tx outputs on opposing forks.
 
 ## Supporting the project
 
@@ -49,7 +57,7 @@ height="100">](https://www.macstadium.com)
 alt="JetBrains"
 height="100">](https://www.jetbrains.com)
 
-Developers are volunteers doing this mostly for shits and giggles. If you would like to support our shenanigans and stimulant addictions, please consider donating to [WFS proposals](https://funding.wownero.com/proposals) or the dev slush fund.
+Developers are volunteers doing this mostly for shits and giggles. If you would like to support our shenanigans and stimulant addictions, please consider donating to the dev slush fund.
 
 ### Donation Addresses
 
@@ -62,12 +70,6 @@ XMR: `44SQVPGLufPasUcuUQSZiF5c9BFzjcP8ucDxzzFDgLf1VkCEFaidJ3u2AhSKMhPLKA3jc2iS8w
 - view key: `cb83681c31db0c79adf18f25b2a6d05f86db1109385b4928930e2acf49a3ed0b`
 
 BTC: `bc1qcw9zglp3fxyl25zswemw7jczlqryms2lsmu464`
-
-### Open Collective
-
-Open Collective is an online funding platform for open source software and collaborative communities. The platform brings together legal entities that act as a “Fiscal Host”, “Collectives” (unincorporated, community-based projects), and individuals interested in supporting projects with donations. Fiscal hosts hold donations for collectives in trust and handle all the taxes and legal stuff.
-
-Wownero is hosted by Open Collective Europe, a Brussels-based non-profit that hosts many other collectives, such as Manjaro, EndeavourOS, Xfce, and peertube.social. If you would like donate to the Wownero Project using this method, you can check out our [Wownero - Open Collective](https://opencollective.com/wownero) page.
 
 ## Release staging and Contributing
 
@@ -215,3 +217,6 @@ More information on running Tor and i2p nodes is available [here](https://forum.
 ```
 ./wownero-wallet-cli --proxy 127.0.0.1:9050 --daemon-address iy6ry6uudpzvbd72zsipepukp6nsazjdu72n52vg3isfnxqn342flzad.onion:34568
 ```
+
+Copyright (c) 2014-2024 The Monero Project.   
+Portions Copyright (c) 2012-2013 The Cryptonote developers.
