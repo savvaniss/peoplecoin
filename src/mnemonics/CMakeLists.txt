@@ -26,23 +26,29 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-set(mnemonics_sources
-  electrum-words.cpp)
+file(GLOB MN_HEADERS *.h)
+file(GLOB MN_SOURCES *.cpp *.c *.cc)
 
-set(mnemonics_headers)
+add_library(mnemonics)
+target_sources(mnemonics
+    PUBLIC
+        FILE_SET HEADERS
+        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
+        FILES
+            ${MN_HEADERS}
+    PRIVATE
+        ${MN_SOURCES}
+    )
 
-monero_find_all_headers(mnemonics_private_headers "${CMAKE_CURRENT_SOURCE_DIR}")
-
-monero_private_headers(mnemonics
-  ${mnemonics_private_headers})
-monero_add_library(mnemonics
-  ${mnemonics_sources}
-  ${mnemonics_headers}
-  ${mnemonics_private_headers})
 target_link_libraries(mnemonics
   PUBLIC
     epee
     easylogging
-    ${Boost_SYSTEM_LIBRARY}
-  PRIVATE
-    ${EXTRA_LIBRARIES})
+    Boost::system)
+
+target_include_directories(mnemonics
+        PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        )
+
+monero_install_library(mnemonics "${CMAKE_INSTALL_INCLUDEDIR}/monero/mnemonics/")

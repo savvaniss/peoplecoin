@@ -51,4 +51,4 @@ add_dependencies(gen_multisig
 set_property(TARGET gen_multisig
   PROPERTY
     OUTPUT_NAME "wownero-gen-trusted-multisig")
-install(TARGETS gen_multisig DESTINATION bin)
+install(TARGETS gen_multisig DESTINATION ${CMAKE_INSTALL_BINDIR})

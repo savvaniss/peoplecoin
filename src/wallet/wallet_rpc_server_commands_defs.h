@@ -530,6 +530,17 @@ namespace wallet_rpc
     END_KV_SERIALIZE_MAP()
   };
 
+  struct amounts_list
+  {
+    std::list<uint64_t> amounts;
+
+    bool operator==(const amounts_list& other) const { return amounts == other.amounts; }
+
+    BEGIN_KV_SERIALIZE_MAP()
+      KV_SERIALIZE(amounts)
+    END_KV_SERIALIZE_MAP()
+  };
+
   struct single_transfer_response
   {
     std::string tx_hash;

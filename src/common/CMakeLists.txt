@@ -26,61 +26,47 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-include_directories(SYSTEM ${OPENSSL_INCLUDE_DIR})
+file(GLOB COMMON_SOURCES "*.cpp" "*.c")
+file(GLOB COMMON_HEADERS "*.h")
 
-set(common_sources
-  base58.cpp
-  command_line.cpp
-  dns_utils.cpp
-  download.cpp
-  error.cpp
-  expect.cpp
-  util.cpp
-  i18n.cpp
-  notify.cpp
-  password.cpp
-  perf_timer.cpp
-  pruning.cpp
-  spawn.cpp
-  threadpool.cpp
-  updates.cpp
-  aligned.c
-  timings.cc
-  combinator.cpp)
+add_library(common)
 
-if (STACK_TRACE)
-  list(APPEND common_sources stack_trace.cpp)
-endif()
+target_sources(common
+    PUBLIC
+        FILE_SET HEADERS
+        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
+        FILES
+            ${COMMON_HEADERS}
+    PRIVATE
+        ${COMMON_SOURCES}
+    )
 
-if (BACKCOMPAT)
-  list(APPEND common_sources compat/glibc_compat.cpp)
-endif()
-
-set(common_headers)
-
-monero_find_all_headers(common_private_headers "${CMAKE_CURRENT_SOURCE_DIR}")
-
-monero_private_headers(common
-  ${common_private_headers})
-monero_add_library(common
-  ${common_sources}
-  ${common_headers}
-  ${common_private_headers}
-  DEPENDS generate_translations_header)
 target_link_libraries(common
   PUBLIC
     cncrypto
-    ${UNBOUND_LIBRARIES}
-    ${LIBUNWIND_LIBRARIES}
-    ${Boost_DATE_TIME_LIBRARY}
-    ${Boost_FILESYSTEM_LIBRARY}
-    ${Boost_SYSTEM_LIBRARY}
-    ${Boost_THREAD_LIBRARY}
-    ${Boost_REGEX_LIBRARY}
-    ${Boost_CHRONO_LIBRARY}
+    easylogging
+    Libunbound::Libunbound
+    Boost::chrono
+    Boost::date_time
+    Boost::filesystem
+    Boost::thread
+    Boost::regex
+    Boost::system
   PRIVATE
-    ${OPENSSL_LIBRARIES}
-    ${EXTRA_LIBRARIES})
+    OpenSSL::SSL
+    OpenSSL::Crypto)
 
-#monero_install_headers(common
-#  ${common_headers})
+target_include_directories(common
+        PRIVATE ${LIBUNBOUND_INCLUDE_DIR}
+        PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../>
+        PRIVATE $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/translations>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        )
+
+if(STATIC)
+    target_compile_definitions(common PUBLIC STATICLIB=1)
+endif()
+
+add_dependencies(common generate_translations_header)
+
+monero_install_library(common "${CMAKE_INSTALL_INCLUDEDIR}/monero/common/")

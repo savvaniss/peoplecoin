@@ -26,27 +26,38 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-cmake_minimum_required (VERSION 3.5)
-project (monero CXX)
+file(GLOB P2P_HEADERS *.h)
+file(GLOB P2P_SOURCES *.cpp *.c *.cc)
 
-file(GLOB P2P *)
-source_group(p2p FILES ${P2P})
+add_library(p2p)
+target_sources(p2p
+    PUBLIC
+        FILE_SET HEADERS
+        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
+        FILES
+            ${P2P_HEADERS}
+    PRIVATE
+        ${P2P_SOURCES}
+    )
 
-#add_library(p2p ${P2P})
-
-#monero_private_headers(p2p ${P2P})
-monero_add_library(p2p ${P2P})
 target_link_libraries(p2p
   PUBLIC
     version
     cryptonote_core
     net
-    ${UPNP_LIBRARIES}
-    ${Boost_CHRONO_LIBRARY}
-    ${Boost_PROGRAM_OPTIONS_LIBRARY}
-    ${Boost_FILESYSTEM_LIBRARY}
-    ${Boost_SYSTEM_LIBRARY}
-    ${Boost_THREAD_LIBRARY}
-    ${Boost_SERIALIZATION_LIBRARY}
-  PRIVATE
-    ${EXTRA_LIBRARIES})
+    miniupnpc::miniupnpc
+    Boost::chrono
+    Boost::program_options
+    Boost::filesystem
+    Boost::system
+    Boost::thread
+    Boost::serialization)
+
+target_include_directories(p2p
+        PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
+        PUBLIC $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/external>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PRIVATE ${OPENSSL_INCLUDE_DIR}
+        )
+
+monero_install_library(p2p "${CMAKE_INSTALL_INCLUDEDIR}/monero/p2p/")

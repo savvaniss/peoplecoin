@@ -52,7 +52,6 @@ target_link_libraries(trezor_tests
     version
     epee
     device
-    device_trezor
     wallet
     wallet_api
     rpc

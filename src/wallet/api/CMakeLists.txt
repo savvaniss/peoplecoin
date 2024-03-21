@@ -28,8 +28,6 @@
 
 # include (${PROJECT_SOURCE_DIR}/cmake/libutils.cmake)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-
 set(wallet_api_sources
   wallet.cpp
   wallet_manager.cpp
@@ -46,8 +44,7 @@ set(wallet_api_sources
   coins.cpp
   coins_info.cpp)
 
-set(wallet_api_headers
-    wallet2_api.h)
+set(wallet_api_headers wallet2_api.h)
 
 set(wallet_api_private_headers
   wallet.h
@@ -65,39 +62,33 @@ set(wallet_api_private_headers
   coins.h
   coins_info.h)
 
-monero_private_headers(wallet_api
-  ${wallet_api_private_headers})
-monero_add_library(wallet_api
-  ${wallet_api_sources}
-  ${wallet_api_headers}
-  ${wallet_api_private_headers})
+add_library(wallet_api)
+
 target_link_libraries(wallet_api
   PUBLIC
     wallet
     common
     cryptonote_core
     mnemonics
-    ${LMDB_LIBRARY}
-    ${Boost_CHRONO_LIBRARY}
-    ${Boost_LOCALE_LIBRARY}
-    ${ICU_LIBRARIES}
-    ${Boost_SERIALIZATION_LIBRARY}
-    ${Boost_FILESYSTEM_LIBRARY}
-    ${Boost_SYSTEM_LIBRARY}
-    ${Boost_THREAD_LIBRARY}
-    ${CMAKE_THREAD_LIBS_INIT}
-    ${Boost_REGEX_LIBRARY}
-  PRIVATE
-    ${EXTRA_LIBRARIES})
+    lmdb
+    Boost::chrono
+    Boost::program_options
+    Boost::filesystem
+    Boost::thread
+    Boost::locale
+    Boost::serialization
+    Boost::system
+    Boost::regex
+    ${ICU_LIBRARIES})
 
-set_property(TARGET wallet_api PROPERTY EXCLUDE_FROM_ALL TRUE)
-set_property(TARGET obj_wallet_api PROPERTY EXCLUDE_FROM_ALL TRUE)
+target_include_directories(wallet_api
+        PRIVATE ${OPENSSL_INCLUDE_DIR})
 
-if(IOS)
-    set(lib_folder lib-${ARCH})
-else()
-    set(lib_folder lib)
-endif()
+target_sources(wallet_api
+    PRIVATE
+        ${wallet_api_private_headers}
+        ${wallet_api_sources}
+    PUBLIC
+        FILE_SET HEADERS BASE_DIRS ${PROJECT_SOURCE_DIR}/src FILES ${wallet_api_headers})
 
-install(FILES ${wallet_api_headers}
-    DESTINATION include/wallet/api)
+monero_install_library(wallet_api "${CMAKE_INSTALL_INCLUDEDIR}/monero/wallet/api/")

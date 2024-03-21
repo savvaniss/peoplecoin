@@ -26,28 +26,35 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-set(blockchain_db_sources
-  blockchain_db.cpp
-  lmdb/db_lmdb.cpp
-  )
+file(GLOB BCDB_HEADERS *.h)
+file(GLOB BCDB_SOURCES *.cpp *.c *.cc)
 
-set(blockchain_db_headers)
+list(APPEND BCDB_SOURCES lmdb/db_lmdb.cpp)
+list(APPEND BCDB_HEADERS lmdb/db_lmdb.h)
 
-monero_find_all_headers(blockchain_db_private_headers "${CMAKE_CURRENT_SOURCE_DIR}")
-
-monero_private_headers(blockchain_db
-  ${crypto_private_headers})
-monero_add_library(blockchain_db
-  ${blockchain_db_sources}
-  ${blockchain_db_headers}
-  ${blockchain_db_private_headers})
+add_library(blockchain_db)
+target_sources(blockchain_db
+    PUBLIC
+        FILE_SET HEADERS
+        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../
+        FILES
+            ${BCDB_HEADERS}
+    PRIVATE
+        ${BCDB_SOURCES}
+    )
 target_link_libraries(blockchain_db
   PUBLIC
     common
     cncrypto
     ringct
-    ${LMDB_LIBRARY}
-    ${Boost_FILESYSTEM_LIBRARY}
-    ${Boost_THREAD_LIBRARY}
-  PRIVATE
-    ${EXTRA_LIBRARIES})
+    lmdb
+    Boost::filesystem
+    Boost::thread)
+
+target_include_directories(blockchain_db
+        PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../>
+        PUBLIC $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/external>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        )
+
+monero_install_library(blockchain_db "${CMAKE_INSTALL_INCLUDEDIR}/monero/blockchain_db/")

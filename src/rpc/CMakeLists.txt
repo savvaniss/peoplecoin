@@ -26,108 +26,64 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-include_directories(SYSTEM ${ZMQ_INCLUDE_PATH})
+# rpc base
 
-set(rpc_base_sources
-  rpc_args.cpp
-  rpc_payment_signature.cpp
-  rpc_handler.cpp)
-
-set(rpc_sources
-  bootstrap_daemon.cpp
-  bootstrap_node_selector.cpp
-  core_rpc_server.cpp
-  rpc_payment.cpp
-  rpc_version_str.cpp
-  instanciations.cpp)
-
-set(daemon_messages_sources
-  message.cpp
-  daemon_messages.cpp)
-
-set(rpc_pub_sources zmq_pub.cpp)
-
-set(daemon_rpc_server_sources
-  daemon_handler.cpp
-  zmq_pub.cpp
-  zmq_server.cpp)
-
-
-set(rpc_base_headers
-  rpc_args.h
-  rpc_payment_signature.h
-  rpc_handler.h)
-
-set(rpc_headers
-  rpc_version_str.h
-  rpc_handler.h)
-
-set(rpc_pub_headers zmq_pub.h)
-
-set(daemon_rpc_server_headers)
-
-set(rpc_private_headers
-  bootstrap_daemon.h
-  core_rpc_server.h
-  rpc_payment.h
-  core_rpc_server_commands_defs.h
-  core_rpc_server_error_codes.h)
-
-set(daemon_messages_private_headers
-  message.h
-  daemon_messages.h)
-
-set(daemon_rpc_server_private_headers
-  message.h
-  daemon_messages.h
-  daemon_handler.h
-  zmq_server.h)
-
-
-monero_private_headers(rpc
-  ${rpc_private_headers})
-
-set(rpc_pub_private_headers)
-
-monero_private_headers(daemon_rpc_server
-  ${daemon_rpc_server_private_headers})
-
-
-monero_add_library(rpc_base
-  ${rpc_base_sources}
-  ${rpc_base_headers}
-  ${rpc_base_private_headers})
-
-monero_add_library(rpc
-  ${rpc_sources}
-  ${rpc_headers}
-  ${rpc_private_headers})
-
-monero_add_library(rpc_pub
-  ${rpc_pub_sources}
-  ${rpc_pub_headers}
-  ${rpc_pub_private_headers})
-
-monero_add_library(daemon_messages
-  ${daemon_messages_sources}
-  ${daemon_messages_headers}
-  ${daemon_messages_private_headers})
-
-monero_add_library(daemon_rpc_server
-  ${daemon_rpc_server_sources}
-  ${daemon_rpc_server_headers}
-  ${daemon_rpc_server_private_headers})
-
+add_library(rpc_base)
+target_sources(rpc_base
+    PUBLIC
+        FILE_SET HEADERS
+        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
+        FILES
+            ${CMAKE_CURRENT_SOURCE_DIR}/rpc_args.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/rpc_payment_signature.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/rpc_handler.h
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/rpc_args.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/rpc_payment_signature.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/rpc_handler.cpp
+    )
 
 target_link_libraries(rpc_base
   PUBLIC
     common
     epee
-    ${Boost_REGEX_LIBRARY}
-    ${Boost_THREAD_LIBRARY}
-    ${Boost_PROGRAM_OPTIONS_LIBRARY}
-  PRIVATE
-    ${EXTRA_LIBRARIES})
+    Boost::regex
+    Boost::thread
+    Boost::program_options)
+
+target_include_directories(rpc_base
+        PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero>
+        PRIVATE ${ZMQ_INCLUDE_DIRS}
+        PRIVATE ${OPENSSL_INCLUDE_DIR}
+        )
+
+monero_install_library(rpc_base "${CMAKE_INSTALL_INCLUDEDIR}/monero/rpc/")
+
+# rpc
+
+add_library(rpc)
+target_sources(rpc
+    PUBLIC
+        FILE_SET HEADERS
+        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
+        FILES
+            ${CMAKE_CURRENT_SOURCE_DIR}/rpc_version_str.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/rpc_handler.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/bootstrap_daemon.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/core_rpc_server.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/rpc_payment.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/core_rpc_server_commands_defs.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/core_rpc_server_error_codes.h
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/bootstrap_daemon.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/bootstrap_node_selector.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/core_rpc_server.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/rpc_payment.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/rpc_version_str.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/instanciations.cpp
+    )
+
 
 target_link_libraries(rpc
   PUBLIC
@@ -137,10 +93,30 @@ target_link_libraries(rpc
     cryptonote_protocol
     net
     version
-    ${Boost_REGEX_LIBRARY}
-    ${Boost_THREAD_LIBRARY}
-  PRIVATE
-    ${EXTRA_LIBRARIES})
+    Boost::regex
+    Boost::thread)
+
+target_include_directories(rpc
+        PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PRIVATE ${ZMQ_INCLUDE_DIRS}
+        PRIVATE ${OPENSSL_INCLUDE_DIR}
+        )
+
+monero_install_library(rpc "${CMAKE_INSTALL_INCLUDEDIR}/monero/rpc/")
+
+# rpc pub
+
+add_library(rpc_pub)
+target_sources(rpc_pub
+    PUBLIC
+        FILE_SET HEADERS
+        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
+        FILES
+            ${CMAKE_CURRENT_SOURCE_DIR}/zmq_pub.h
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/zmq_pub.cpp
+    )
 
 target_link_libraries(rpc_pub
   PUBLIC
@@ -148,15 +124,42 @@ target_link_libraries(rpc_pub
     net
     cryptonote_basic
     serialization
-    ${Boost_THREAD_LIBRARY})
+    Boost::thread)
+
+target_include_directories(rpc_pub
+        PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PRIVATE ${ZMQ_INCLUDE_DIRS}
+        PRIVATE ${OPENSSL_INCLUDE_DIR}
+        )
+
+monero_install_library(rpc_pub "${CMAKE_INSTALL_INCLUDEDIR}/monero/rpc/")
+
+# daemon messages
+
+add_library(daemon_messages
+  message.cpp
+  daemon_messages.cpp
+  message.h
+  daemon_messages.h)
 
 target_link_libraries(daemon_messages
   LINK_PRIVATE
     cryptonote_core
     cryptonote_protocol
     version
-    serialization
-    ${EXTRA_LIBRARIES})
+    serialization)
+
+# daemon rpc server
+
+add_library(daemon_rpc_server
+  daemon_handler.cpp
+  zmq_pub.cpp
+  zmq_server.cpp
+  message.h
+  daemon_messages.h
+  daemon_handler.h
+  zmq_server.h)
 
 target_link_libraries(daemon_rpc_server
   LINK_PRIVATE
@@ -167,11 +170,13 @@ target_link_libraries(daemon_rpc_server
     version
     daemon_messages
     serialization
-    ${Boost_CHRONO_LIBRARY}
-    ${Boost_REGEX_LIBRARY}
-    ${Boost_SYSTEM_LIBRARY}
-    ${Boost_THREAD_LIBRARY}
-    ${ZMQ_LIB}
-    ${EXTRA_LIBRARIES})
-target_include_directories(daemon_rpc_server PUBLIC ${ZMQ_INCLUDE_PATH})
-target_include_directories(obj_daemon_rpc_server PUBLIC ${ZMQ_INCLUDE_PATH})
+    Boost::chrono
+    Boost::regex
+    Boost::system
+    Boost::thread
+    ${ZMQ_LIBRARIES})
+
+target_include_directories(daemon_rpc_server
+        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../
+        PRIVATE ${ZMQ_INCLUDE_DIRS}
+        PRIVATE ${OPENSSL_INCLUDE_DIR})
