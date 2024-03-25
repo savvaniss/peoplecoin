@@ -26,13 +26,12 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+set(EL_HEADERS
+    easylogging++.h
+    ea_config.h)
+
 add_library(easylogging)
 target_sources(easylogging
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-        FILES
-            ${CMAKE_CURRENT_SOURCE_DIR}/easylogging++.h
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/easylogging++.cc
     )
@@ -44,6 +43,7 @@ target_compile_definitions(easylogging PUBLIC
 target_include_directories(easylogging
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/easylogging++/>
         )
 
 target_link_libraries(easylogging
@@ -51,4 +51,6 @@ target_link_libraries(easylogging
         Threads::Threads
         ${Backtrace_LIBRARIES})
 
-monero_install_library(easylogging)
+monero_install_library(easylogging
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/easylogging++/"
+        HEADERS ${EL_HEADERS})

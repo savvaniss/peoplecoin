@@ -28,11 +28,6 @@
 
 add_library(checkpoints)
 target_sources(checkpoints
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-        FILES
-            ${CMAKE_CURRENT_SOURCE_DIR}/checkpoints.h
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/checkpoints.cpp
     )
@@ -50,6 +45,9 @@ target_link_libraries(checkpoints PUBLIC
 target_include_directories(checkpoints
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
         )
 
-monero_install_library(checkpoints "${CMAKE_INSTALL_INCLUDEDIR}/monero/checkpoints/")
+monero_install_library(checkpoints
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/checkpoints/"
+        HEADERS checkpoints.h)

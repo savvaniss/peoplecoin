@@ -1,24 +1,32 @@
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
-#function(monero_register_lib LIB)
-#    set_property(GLOBAL PROPERTY source_list_property "${source_list}")
-#endfunction()
+function(monero_install_library targetName)
+    set(flags)
+    set(args)
+    set(listArgs INCLUDE_DIR HEADERS)
+    cmake_parse_arguments(arg "${flags}" "${args}" "${listArgs}" ${ARGN})
 
-function(monero_install_library LIB)
-    set(HEADER_DESTINATION "${ARGN}")
+    set(include_dir "${arg_INCLUDE_DIR}")
+    set(headers "${arg_HEADERS}")
 
-    set(path_install ${CMAKE_INSTALL_LIBDIR}/cmake/monero)
-    if(NOT HEADER_DESTINATION)
-        set(HEADER_DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/monero/")
+    if(NOT include_dir)
+        set(include_dir "${CMAKE_INSTALL_INCLUDEDIR}/monero/")
     endif()
 
-    install(TARGETS ${LIB} EXPORT MoneroTargets
+    if(${targetName} STREQUAL "device")
+        message(STATUS "lol")
+    endif()
+
+    if(headers AND include_dir)
+        install_with_directory(DESTINATION ${include_dir} FILES ${headers})
+    endif()
+
+    install(TARGETS ${targetName} EXPORT MoneroTargets
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}/monero/
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/monero/
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/monero/
         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/monero/)
-#        FILE_SET HEADERS DESTINATION ${HEADER_DESTINATION})
 endfunction()
 
 function(print_cmake_summary)
@@ -73,3 +81,15 @@ function(print_cmake_summary)
     endif()
 
 endfunction()
+
+macro(install_with_directory)
+    set(optionsArgs "")
+    set(oneValueArgs "DESTINATION")
+    set(multiValueArgs "FILES")
+    cmake_parse_arguments(CAS "${optionsArgs}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
+
+    foreach(FILE ${CAS_FILES})
+        get_filename_component(DIR ${FILE} DIRECTORY)
+        INSTALL(FILES ${FILE} DESTINATION ${CAS_DESTINATION}/${DIR})
+    endforeach()
+endmacro(install_with_directory)

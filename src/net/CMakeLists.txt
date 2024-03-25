@@ -27,16 +27,22 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-file(GLOB NET_HEADERS *.h)
+SET(NET_HEADERS
+    dandelionpp.h
+    error.h
+    fwd.h
+    http.h
+    i2p_address.h
+    parse.h
+    resolve.h
+    socks_connect.h
+    socks.h
+    tor_address.h
+    zmq.h)
 file(GLOB NET_SOURCES *.cpp *.c *.cc)
 
 add_library(net)
 target_sources(net
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../
-        FILES
-            ${NET_HEADERS}
     PRIVATE
         ${NET_SOURCES}
     )
@@ -50,8 +56,11 @@ target_link_libraries(net PUBLIC
 target_include_directories(net
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
         PRIVATE ${ZMQ_INCLUDE_DIRS}
         PRIVATE ${OPENSSL_INCLUDE_DIR}
         )
 
-monero_install_library(net "${CMAKE_INSTALL_INCLUDEDIR}/monero/net/")
+monero_install_library(net
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/net/"
+        HEADERS ${NET_HEADERS})

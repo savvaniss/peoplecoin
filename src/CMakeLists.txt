@@ -31,11 +31,6 @@
 include(Version)
 add_library(version)
 target_sources(version
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-        FILES
-            ${CMAKE_CURRENT_SOURCE_DIR}/version.h
     PRIVATE
         ${CMAKE_BINARY_DIR}/version.cpp
     )
@@ -44,9 +39,12 @@ target_include_directories(version
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         PUBLIC $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/external>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
         )
 
-monero_install_library(version)
+monero_install_library(version
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/"
+        HEADERS version.h)
 
 add_subdirectory(common)
 add_subdirectory(crypto)
@@ -81,3 +79,6 @@ if(PER_BLOCK_CHECKPOINT)
 endif()
 
 add_subdirectory(device)
+
+install(FILES cryptonote_config.h
+        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/monero/")

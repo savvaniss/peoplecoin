@@ -28,15 +28,12 @@
 
 add_library(hardforks)
 target_sources(hardforks
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-        FILES
-            ${CMAKE_CURRENT_SOURCE_DIR}/hardforks.h
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/hardforks.cpp
     )
 
 target_link_libraries(hardforks PUBLIC version)
 
-monero_install_library(hardforks "${CMAKE_INSTALL_INCLUDEDIR}/monero/hardforks/")
+monero_install_library(hardforks
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/hardforks/"
+        HEADERS hardforks.h)

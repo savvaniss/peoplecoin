@@ -26,10 +26,18 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-file(GLOB CN_CORE_HEADERS *.h)
 file(GLOB CN_CORE_SOURCES *.cpp *.c *.cc)
+set(CN_CORE_HEADERS
+  blockchain.h
+  blockchain_storage_boost_serialization.h
+  cryptonote_core.h
+  cryptonote_tx_utils.h
+  i_core_events.h
+  tx_pool.h
+  tx_sanity_check.h
+  tx_verification_utils.h)
 
-add_library(cryptonote_core ${CN_CORE_SOURCES})
+add_library(cryptonote_core)
 target_link_libraries(cryptonote_core
   PUBLIC
     version
@@ -49,6 +57,7 @@ target_link_libraries(cryptonote_core
 target_include_directories(cryptonote_core PRIVATE
         PUBLIC $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/external>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
         )
 
 if(PER_BLOCK_CHECKPOINT)
@@ -56,11 +65,6 @@ if(PER_BLOCK_CHECKPOINT)
 endif()
 
 target_sources(cryptonote_core
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../
-        FILES
-          ${CN_CORE_HEADERS}
     PRIVATE
         ${CN_CORE_SOURCES}
     )
@@ -68,6 +72,9 @@ target_sources(cryptonote_core
 target_include_directories(cryptonote_core
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
         )
 
-monero_install_library(cryptonote_core "${CMAKE_INSTALL_INCLUDEDIR}/monero/cryptonote_core/")
+monero_install_library(cryptonote_core
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/cryptonote_core/"
+        HEADERS ${CN_CORE_HEADERS})

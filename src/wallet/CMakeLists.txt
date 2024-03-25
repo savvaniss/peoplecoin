@@ -40,9 +40,7 @@ set(wallet_headers
     api/pending_transaction_info.h
     api/wallet.h
     api/wallet2_api.h
-    wallet2.h)
-
-set(wallet_private_headers
+    wallet2.h
     api/address_book.h
     api/coins.h
     api/coins_info.h
@@ -68,11 +66,8 @@ set(wallet_private_headers
 
 add_library(wallet ${wallet_sources})
 target_sources(wallet
-    PUBLIC
-        ${wallet_headers}
     PRIVATE
         ${wallet_sources}
-        ${wallet_private_headers}
     )
 
 target_link_libraries(wallet
@@ -100,7 +95,9 @@ target_include_directories(wallet
         PRIVATE ${OPENSSL_INCLUDE_DIR}
         )
 
-monero_install_library(wallet "${CMAKE_INSTALL_INCLUDEDIR}/monero/wallet/")
+monero_install_library(wallet
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/wallet/"
+        HEADERS "${wallet_headers}")
 
 # == rpc server
 

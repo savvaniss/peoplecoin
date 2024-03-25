@@ -37,6 +37,7 @@ target_sources(lmdb PRIVATE ${lmdb_sources})
 target_include_directories(lmdb
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
         )
 
 target_link_libraries(lmdb PRIVATE Threads::Threads)
@@ -59,4 +60,6 @@ set_target_properties(lmdb PROPERTIES
   CXX_STANDARD_REQUIRED ON
   )
 
-monero_install_library(lmdb)
+monero_install_library(lmdb
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/lmdb/"
+        HEADERS "midl.h;lmdb.h")

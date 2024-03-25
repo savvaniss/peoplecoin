@@ -26,43 +26,41 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# include (${PROJECT_SOURCE_DIR}/cmake/libutils.cmake)
-
 set(wallet_api_sources
-  wallet.cpp
-  wallet_manager.cpp
-  transaction_info.cpp
-  transaction_history.cpp
-  transaction_construction_info.cpp
-  pending_transaction_info.cpp
-  pending_transaction.cpp
-  utils.cpp
-  address_book.cpp
-  subaddress.cpp
-  subaddress_account.cpp
-  unsigned_transaction.cpp
-  coins.cpp
-  coins_info.cpp)
+    wallet.cpp
+    wallet_manager.cpp
+    transaction_info.cpp
+    transaction_history.cpp
+    transaction_construction_info.cpp
+    pending_transaction_info.cpp
+    pending_transaction.cpp
+    utils.cpp
+    address_book.cpp
+    subaddress.cpp
+    subaddress_account.cpp
+    unsigned_transaction.cpp
+    coins.cpp
+    coins_info.cpp)
 
 set(wallet_api_headers wallet2_api.h)
 
 set(wallet_api_private_headers
-  wallet.h
-  wallet_manager.h
-  transaction_info.h
-  transaction_history.h
-  transaction_construction_info.h
-  pending_transaction_info.h
-  pending_transaction.h
-  common_defines.h
-  address_book.h
-  subaddress.h
-  subaddress_account.h
-  unsigned_transaction.h
-  coins.h
-  coins_info.h)
+    wallet.h
+    wallet_manager.h
+    transaction_info.h
+    transaction_history.h
+    transaction_construction_info.h
+    pending_transaction_info.h
+    pending_transaction.h
+    common_defines.h
+    address_book.h
+    subaddress.h
+    subaddress_account.h
+    unsigned_transaction.h
+    coins.h
+    coins_info.h)
 
-add_library(wallet_api)
+add_library(wallet_api ${wallet_api_sources})
 
 target_link_libraries(wallet_api
   PUBLIC
@@ -82,13 +80,13 @@ target_link_libraries(wallet_api
     ${ICU_LIBRARIES})
 
 target_include_directories(wallet_api
-        PRIVATE ${OPENSSL_INCLUDE_DIR})
+        PRIVATE ${OPENSSL_INCLUDE_DIR}
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>)
 
 target_sources(wallet_api
     PRIVATE
-        ${wallet_api_private_headers}
-        ${wallet_api_sources}
-    PUBLIC
-        FILE_SET HEADERS BASE_DIRS ${PROJECT_SOURCE_DIR}/src FILES ${wallet_api_headers})
+        ${wallet_api_sources})
 
-monero_install_library(wallet_api "${CMAKE_INSTALL_INCLUDEDIR}/monero/wallet/api/")
+monero_install_library(wallet_api
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/wallet/api/"
+        HEADERS "${wallet_api_headers}")

@@ -27,16 +27,13 @@
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # rpc base
+set(RPC_BASE_HEADERS
+    rpc_args.h
+    rpc_payment_signature.h
+    rpc_handler.h)
 
 add_library(rpc_base)
 target_sources(rpc_base
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-        FILES
-            ${CMAKE_CURRENT_SOURCE_DIR}/rpc_args.h
-            ${CMAKE_CURRENT_SOURCE_DIR}/rpc_payment_signature.h
-            ${CMAKE_CURRENT_SOURCE_DIR}/rpc_handler.h
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/rpc_args.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/rpc_payment_signature.cpp
@@ -58,23 +55,22 @@ target_include_directories(rpc_base
         PRIVATE ${OPENSSL_INCLUDE_DIR}
         )
 
-monero_install_library(rpc_base "${CMAKE_INSTALL_INCLUDEDIR}/monero/rpc/")
+monero_install_library(rpc_base
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/rpc_base/"
+        HEADERS "${RPC_BASE_HEADERS}")
 
 # rpc
+set(RPC_HEADERS 
+    rpc_version_str.h
+    rpc_handler.h
+    bootstrap_daemon.h
+    core_rpc_server.h
+    rpc_payment.h
+    core_rpc_server_commands_defs.h
+    core_rpc_server_error_codes.h)
 
 add_library(rpc)
 target_sources(rpc
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-        FILES
-            ${CMAKE_CURRENT_SOURCE_DIR}/rpc_version_str.h
-            ${CMAKE_CURRENT_SOURCE_DIR}/rpc_handler.h
-            ${CMAKE_CURRENT_SOURCE_DIR}/bootstrap_daemon.h
-            ${CMAKE_CURRENT_SOURCE_DIR}/core_rpc_server.h
-            ${CMAKE_CURRENT_SOURCE_DIR}/rpc_payment.h
-            ${CMAKE_CURRENT_SOURCE_DIR}/core_rpc_server_commands_defs.h
-            ${CMAKE_CURRENT_SOURCE_DIR}/core_rpc_server_error_codes.h
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/bootstrap_daemon.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/bootstrap_node_selector.cpp
@@ -83,7 +79,6 @@ target_sources(rpc
         ${CMAKE_CURRENT_SOURCE_DIR}/rpc_version_str.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/instanciations.cpp
     )
-
 
 target_link_libraries(rpc
   PUBLIC
@@ -99,21 +94,21 @@ target_link_libraries(rpc
 target_include_directories(rpc
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
         PRIVATE ${ZMQ_INCLUDE_DIRS}
         PRIVATE ${OPENSSL_INCLUDE_DIR}
         )
 
-monero_install_library(rpc "${CMAKE_INSTALL_INCLUDEDIR}/monero/rpc/")
+monero_install_library(rpc
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/rpc/"
+        HEADERS "${RPC_HEADERS}")
 
 # rpc pub
+set(RPC_PUB_HEADERS
+    zmq_pub.h)
 
 add_library(rpc_pub)
 target_sources(rpc_pub
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-        FILES
-            ${CMAKE_CURRENT_SOURCE_DIR}/zmq_pub.h
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/zmq_pub.cpp
     )
@@ -129,19 +124,23 @@ target_link_libraries(rpc_pub
 target_include_directories(rpc_pub
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
         PRIVATE ${ZMQ_INCLUDE_DIRS}
         PRIVATE ${OPENSSL_INCLUDE_DIR}
         )
 
-monero_install_library(rpc_pub "${CMAKE_INSTALL_INCLUDEDIR}/monero/rpc/")
+monero_install_library(rpc_pub
+    INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/rpc_pub/"
+    HEADERS "${RPC_PUB_HEADERS}")
 
 # daemon messages
+set(DAEMON_MESSAGES_HEADERS
+    message.h
+    daemon_messages.h)
 
 add_library(daemon_messages
   message.cpp
-  daemon_messages.cpp
-  message.h
-  daemon_messages.h)
+  daemon_messages.cpp)
 
 target_link_libraries(daemon_messages
   LINK_PRIVATE

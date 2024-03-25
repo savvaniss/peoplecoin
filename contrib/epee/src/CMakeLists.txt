@@ -36,11 +36,6 @@ file(GLOB EPEE_SOURCES
 
 add_library(epee)
 target_sources(epee
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../include/
-        FILES
-            ${EPEE_HEADERS_PUBLIC}
     PRIVATE
         ${EPEE_SOURCES}
     )
@@ -59,6 +54,10 @@ target_link_libraries(epee
 
 target_include_directories(epee
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
-        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/epee/>)
 
-monero_install_library(epee "${CMAKE_INSTALL_INCLUDEDIR}/monero/epee/")
+install(DIRECTORY ${EPEE_INCLUDE_DIR_BASE}/
+        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/monero/epee/")
+
+monero_install_library(epee)

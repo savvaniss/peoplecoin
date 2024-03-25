@@ -26,17 +26,15 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+set(HEADERS
+    device.hpp
+    device_io.hpp
+    device_default.hpp
+    device_cold.hpp
+    log.hpp)
+
 add_library(device)
 target_sources(device
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../
-        FILES
-            ${CMAKE_CURRENT_SOURCE_DIR}/device.hpp
-            ${CMAKE_CURRENT_SOURCE_DIR}/device_io.hpp
-            ${CMAKE_CURRENT_SOURCE_DIR}/device_default.hpp
-            ${CMAKE_CURRENT_SOURCE_DIR}/device_cold.hpp
-            ${CMAKE_CURRENT_SOURCE_DIR}/log.hpp
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/device.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/device_default.cpp
@@ -60,6 +58,9 @@ target_include_directories(device
         PUBLIC $<TARGET_PROPERTY:monero-crypto-amd64-64-24k,INTERFACE_INCLUDE_DIRECTORIES>
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
         )
 
-monero_install_library(device "${CMAKE_INSTALL_INCLUDEDIR}/monero/device/")
+monero_install_library(device
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/device/"
+        HEADERS "${HEADERS}")

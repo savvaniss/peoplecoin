@@ -26,16 +26,16 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-file(GLOB P2P_HEADERS *.h)
 file(GLOB P2P_SOURCES *.cpp *.c *.cc)
+set(P2P_HEADERS
+    net_node_common.h
+    net_node.h
+    net_peerlist_boost_serialization.h
+    net_peerlist.h
+    p2p_protocol_defs.h)
 
 add_library(p2p)
 target_sources(p2p
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-        FILES
-            ${P2P_HEADERS}
     PRIVATE
         ${P2P_SOURCES}
     )
@@ -57,7 +57,10 @@ target_include_directories(p2p
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
         PUBLIC $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/external>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
         PRIVATE ${OPENSSL_INCLUDE_DIR}
         )
 
-monero_install_library(p2p "${CMAKE_INSTALL_INCLUDEDIR}/monero/p2p/")
+monero_install_library(p2p
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/p2p/"
+        HEADERS ${P2P_HEADERS})

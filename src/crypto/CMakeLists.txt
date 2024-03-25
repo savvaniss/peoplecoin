@@ -49,7 +49,34 @@ set(crypto_sources
     rx-slow-hash.c
     CryptonightR_JIT.c
     tree-hash.c)
-file(GLOB crypto_headers "*.h")
+
+set(crypto_headers
+    CryptonightR_JIT.h
+    CryptonightR_template.h
+    blake256.h
+    c_threads.h
+    chacha.h
+    crypto-ops.h
+    crypto.h
+    duration.h
+    generic-ops.h
+    groestl.h
+    groestl_tables.h
+    hash-ops.h
+    hash.h
+    hmac-keccak.h
+    initializer.h
+    jh.h
+    keccak.h
+    oaes_config.h
+    oaes_lib.h
+    random.h
+    skein.h
+    skein_port.h
+    variant2_int_sqrt.h
+    variant4_random_math.h)
+
+message(STATUS "${crypto_headers}")
 
 if(NOT ARM)
   list(APPEND crypto_sources CryptonightR_template.S)
@@ -57,11 +84,6 @@ endif()
 
 add_library(cncrypto)
 target_sources(cncrypto
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-        FILES
-            ${crypto_headers}
     PRIVATE
         ${crypto_sources}
     )
@@ -79,6 +101,7 @@ target_link_libraries(cncrypto
 target_include_directories(cncrypto
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
         PUBLIC ${sodium_INCLUDE_DIR}
         )
 
@@ -102,4 +125,6 @@ set_property(SOURCE CryptonightR_template.S PROPERTY XCODE_EXPLICIT_FILE_TYPE so
 # Must be done last, because it references libraries in this directory
 add_subdirectory(wallet)
 
-monero_install_library(cncrypto "${CMAKE_INSTALL_INCLUDEDIR}/monero/crypto/")
+monero_install_library(cncrypto
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/crypto/"
+        HEADERS ${crypto_headers})

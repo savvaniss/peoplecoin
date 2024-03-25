@@ -26,19 +26,19 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-file(GLOB BCDB_HEADERS *.h)
 file(GLOB BCDB_SOURCES *.cpp *.c *.cc)
-
 list(APPEND BCDB_SOURCES lmdb/db_lmdb.cpp)
-list(APPEND BCDB_HEADERS lmdb/db_lmdb.h)
+
+set(BCDB_HEADERS
+    blockchain_db.h
+    locked_txn.h
+    testdb.h
+    lmdb/db_lmdb.h)
+
+message(STATUS "${BCDB_HEADERS}")
 
 add_library(blockchain_db)
 target_sources(blockchain_db
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../
-        FILES
-            ${BCDB_HEADERS}
     PRIVATE
         ${BCDB_SOURCES}
     )
@@ -55,6 +55,9 @@ target_include_directories(blockchain_db
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../>
         PUBLIC $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/external>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
         )
 
-monero_install_library(blockchain_db "${CMAKE_INSTALL_INCLUDEDIR}/monero/blockchain_db/")
+monero_install_library(blockchain_db
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/blockchain_db/"
+        HEADERS ${BCDB_HEADERS})

@@ -26,16 +26,18 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-file(GLOB CN_PROT_HEADERS *.h)
 file(GLOB CN_PROT_SOURCES *.cpp *.c *.cc)
+set(CN_PROT_HEADERS
+    block_queue.h
+    cryptonote_protocol_defs.h
+    cryptonote_protocol_handler.h
+    cryptonote_protocol_handler_common.h
+    enums.h
+    fwd.h
+    levin_notify.h)
 
 add_library(cryptonote_protocol)
 target_sources(cryptonote_protocol
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-        FILES
-            ${CN_PROT_HEADERS}
     PRIVATE
         ${CN_PROT_SOURCES}
     )
@@ -45,7 +47,10 @@ target_link_libraries(cryptonote_protocol PUBLIC p2p)
 target_include_directories(cryptonote_protocol
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
         PRIVATE ${OPENSSL_INCLUDE_DIR}
         )
 
-monero_install_library(cryptonote_protocol "${CMAKE_INSTALL_INCLUDEDIR}/monero/cryptonote_protocol/")
+monero_install_library(cryptonote_protocol
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/cryptonote_protocol/"
+        HEADERS ${CN_PROT_HEADERS})

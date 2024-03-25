@@ -27,16 +27,43 @@
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 file(GLOB COMMON_SOURCES "*.cpp" "*.c")
-file(GLOB COMMON_HEADERS "*.h")
+set(COMMON_HEADERS
+    aligned.h
+    apply_permutation.h
+    base58.h
+    boost_serialization_helper.h
+    combinator.h
+    command_line.h
+    common_fwd.h
+    data_cache.h
+    dns_utils.h
+    download.h
+    error.h
+    expect.h
+    http_connection.h
+    i18n.h
+    json_util.h
+    notify.h
+    password.h
+    perf_timer.h
+    pod-class.h
+    powerof.h
+    pruning.h
+    rpc_client.h
+    scoped_message_writer.h
+    sfinae_helpers.h
+    spawn.h
+    stack_trace.h
+    threadpool.h
+    timings.h
+    unordered_containers_boost_serialization.h
+    updates.h
+    utf8.h
+    util.h
+    varint.h)
 
 add_library(common)
-
 target_sources(common
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-        FILES
-            ${COMMON_HEADERS}
     PRIVATE
         ${COMMON_SOURCES}
     )
@@ -61,6 +88,7 @@ target_include_directories(common
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../>
         PRIVATE $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/translations>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
         )
 
 if(STATIC)
@@ -69,4 +97,6 @@ endif()
 
 add_dependencies(common generate_translations_header)
 
-monero_install_library(common "${CMAKE_INSTALL_INCLUDEDIR}/monero/common/")
+monero_install_library(common
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/common/"
+        HEADERS ${COMMON_HEADERS})

@@ -59,11 +59,6 @@ endforeach()
 
 add_library(blocks)
 target_sources(blocks
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-        FILES
-            ${CMAKE_CURRENT_SOURCE_DIR}/blocks.h
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/blocks.cpp
         ${GENERATED_SOURCES}
@@ -73,6 +68,9 @@ target_include_directories(blocks
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
         PUBLIC $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/contrib/epee/include>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
         )
 
-monero_install_library(blocks "${CMAKE_INSTALL_INCLUDEDIR}/monero/blocks/")
+monero_install_library(blocks
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/blocks/"
+        HEADERS blocks.h)

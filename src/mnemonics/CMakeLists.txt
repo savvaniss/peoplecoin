@@ -26,16 +26,27 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-file(GLOB MN_HEADERS *.h)
 file(GLOB MN_SOURCES *.cpp *.c *.cc)
+set(MN_HEADERS
+    chinese_simplified.h
+    dutch.h
+    electrum-words.h
+    english.h
+    english_old.h
+    esperanto.h
+    french.h
+    german.h
+    italian.h
+    japanese.h
+    language_base.h
+    lojban.h
+    portuguese.h
+    russian.h
+    singleton.h
+    spanish.h)
 
 add_library(mnemonics)
 target_sources(mnemonics
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-        FILES
-            ${MN_HEADERS}
     PRIVATE
         ${MN_SOURCES}
     )
@@ -49,6 +60,9 @@ target_link_libraries(mnemonics
 target_include_directories(mnemonics
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
         )
 
-monero_install_library(mnemonics "${CMAKE_INSTALL_INCLUDEDIR}/monero/mnemonics/")
+monero_install_library(mnemonics
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/mnemonics/"
+        HEADERS ${MN_HEADERS})

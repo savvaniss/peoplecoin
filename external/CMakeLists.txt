@@ -33,3 +33,6 @@ add_subdirectory(easylogging++)
 add_subdirectory(qrcodegen)
 add_subdirectory(randomwow)
 add_subdirectory(supercop)
+
+install(DIRECTORY boost
+        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/monero/")

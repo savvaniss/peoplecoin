@@ -46,11 +46,6 @@ set(ringct_basic_headers
 
 add_library(ringct_basic)
 target_sources(ringct_basic
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-        FILES
-            ${ringct_basic_headers}
     PRIVATE
         ${ringct_basic_sources}
     )
@@ -66,16 +61,12 @@ target_link_libraries(ringct_basic
 target_include_directories(ringct_basic
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
         PRIVATE ${OPENSSL_INCLUDE_DIR}
         )
 
 add_library(ringct)
 target_sources(ringct
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-        FILES
-            ${CMAKE_CURRENT_SOURCE_DIR}/rctSigs.h
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/rctSigs.cpp
     )
@@ -92,8 +83,14 @@ target_link_libraries(ringct
 target_include_directories(ringct
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
         PRIVATE ${OPENSSL_INCLUDE_DIR}
         )
 
-monero_install_library(ringct_basic "${CMAKE_INSTALL_INCLUDEDIR}/monero/ringct/")
-monero_install_library(ringct "${CMAKE_INSTALL_INCLUDEDIR}/monero/ringct/")
+monero_install_library(ringct_basic
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/ringct/"
+        HEADERS ${ringct_basic_headers})
+
+monero_install_library(ringct
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/ringct/"
+        HEADERS rctSigs.h)

@@ -26,8 +26,25 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-file(GLOB CN_BASIC_HEADERS *.h)
 file(GLOB CN_BASIC_SOURCES *.cpp *.c *.cc)
+set(CN_BASIC_HEADERS
+    account.h
+    account_boost_serialization.h
+    blobdatatype.h
+    connection_context.h
+    cryptonote_basic.h
+    cryptonote_basic_impl.h
+    cryptonote_boost_serialization.h
+    cryptonote_format_utils.h
+    difficulty.h
+    events.h
+    fwd.h
+    hardfork.h
+    merge_mining.h
+    miner.h
+    subaddress_index.h
+    tx_extra.h
+    verification_context.h)
 
 # cryptonote_format_utils_basic
 add_library(cryptonote_format_utils_basic)
@@ -40,16 +57,12 @@ target_link_libraries(cryptonote_format_utils_basic PUBLIC cncrypto)
 target_include_directories(cryptonote_format_utils_basic
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
         )
 
 # cryptonote_basic
 add_library(cryptonote_basic)
 target_sources(cryptonote_basic
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../
-        FILES
-            ${CN_BASIC_HEADERS}
     PRIVATE
         ${CN_BASIC_SOURCES}
     )
@@ -70,7 +83,11 @@ target_link_libraries(cryptonote_basic
 target_include_directories(cryptonote_basic
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/cryptonote_basic>
         )
 
-monero_install_library(cryptonote_format_utils_basic "${CMAKE_INSTALL_INCLUDEDIR}/monero/cryptonote_basic/")
-monero_install_library(cryptonote_basic "${CMAKE_INSTALL_INCLUDEDIR}/monero/cryptonote_basic/")
+monero_install_library(cryptonote_format_utils_basic)
+monero_install_library(cryptonote_basic
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/cryptonote_basic/"
+        HEADERS ${CN_BASIC_HEADERS})

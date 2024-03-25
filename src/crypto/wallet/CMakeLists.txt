@@ -31,13 +31,6 @@ include(CheckLanguage)
 check_language(ASM-ATT)
 
 add_library(wallet-crypto crypto.h)
-target_sources(wallet-crypto
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-        FILES
-            ${CMAKE_CURRENT_SOURCE_DIR}/crypto.h
-    )
 
 target_include_directories(wallet-crypto
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
@@ -46,4 +39,7 @@ target_include_directories(wallet-crypto
         )
 
 target_link_libraries(wallet-crypto PUBLIC cncrypto)
-monero_install_library(wallet-crypto "${CMAKE_INSTALL_INCLUDEDIR}/monero/wallet-crypto/")
+
+monero_install_library(wallet-crypto
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/wallet-crypto/"
+        HEADERS crypto.h)

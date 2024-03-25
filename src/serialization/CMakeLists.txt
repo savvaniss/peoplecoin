@@ -26,16 +26,26 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-file(GLOB SER_HEADERS *.h)
 file(GLOB SER_SOURCES *.cpp *.c *.cc)
+set(SER_HEADERS
+    binary_archive.h
+    binary_utils.h
+    container.h
+    containers.h
+    crypto.h
+    debug_archive.h
+    difficulty_type.h
+    json_archive.h
+    json_object.h
+    json_utils.h
+    pair.h
+    serialization.h
+    string.h
+    tuple.h
+    variant.h)
 
 add_library(serialization)
 target_sources(serialization
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../
-        FILES
-            ${SER_HEADERS}
     PRIVATE
         ${SER_SOURCES}
     )
@@ -56,6 +66,9 @@ add_dependencies(serialization version)
 target_include_directories(serialization
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
         )
 
-monero_install_library(serialization "${CMAKE_INSTALL_INCLUDEDIR}/monero/serialization/")
+monero_install_library(serialization
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/serialization/"
+        HEADERS "${SER_HEADERS}")

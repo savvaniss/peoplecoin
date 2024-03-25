@@ -26,16 +26,18 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-file(GLOB LMDB_HEADERS *.h)
 file(GLOB LMDB_SOURCES *.cpp *.c *.cc)
+set(LMDB_HEADERS
+    database.h
+    error.h
+    key_stream.h
+    table.h
+    transaction.h
+    util.h
+    value_stream.h)
 
-add_library(lmdb_lib ${LMDB_SOURCES})
+add_library(lmdb_lib)
 target_sources(lmdb_lib
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-        FILES
-            ${LMDB_HEADERS}
     PRIVATE
         ${LMDB_SOURCES}
     )
@@ -44,4 +46,6 @@ target_link_libraries(lmdb_lib PRIVATE
     common
     lmdb)
 
-monero_install_library(lmdb_lib "${CMAKE_INSTALL_INCLUDEDIR}/monero/lmdb/")
+monero_install_library(lmdb_lib
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/lmdb_lib/"
+        HEADERS ${LMDB_HEADERS})

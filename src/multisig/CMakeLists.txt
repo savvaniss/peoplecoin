@@ -25,19 +25,17 @@
 # INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-file(GLOB MULTISIG_HEADERS *.h)
-file(GLOB MULTISIG_SOURCES
-    *.cpp
-    *.c
-    *.cc)
+file(GLOB MULTISIG_SOURCES *.cpp *.c *.cc)
+set(MULTISIG_HEADERS
+    multisig_account.h
+    multisig_clsag_context.h
+    multisig.h
+    multisig_kex_msg.h
+    multisig_kex_msg_serialization.h
+    multisig_tx_builder_ringct.h)
 
 add_library(multisig)
 target_sources(multisig
-    PUBLIC
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-        FILES
-            ${MULTISIG_HEADERS}
     PRIVATE
         ${MULTISIG_SOURCES}
     )
@@ -53,6 +51,9 @@ target_link_libraries(multisig
 target_include_directories(multisig
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
         PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/monero/>
         )
 
-monero_install_library(multisig "${CMAKE_INSTALL_INCLUDEDIR}/monero/multisig/")
+monero_install_library(multisig
+        INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/monero/multisig/"
+        HEADERS ${MULTISIG_HEADERS})
