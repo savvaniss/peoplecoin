@@ -1,15 +1,15 @@
 [Unit]
-Description=Wownero Full Node
+Description=PeopleCoin Full Node
 After=network.target
 
 [Service]
-User=wownero
-Group=wownero
+User=peoplecoin
+Group=peoplecoin
 Environment="MONERO_RANDOMX_UMASK=1"
-StateDirectory=wownero
-LogsDirectory=wownero
+StateDirectory=peoplecoin
+LogsDirectory=peoplecoin
 Type=simple
-ExecStart=/usr/local/bin/wownerod --config-file /etc/wow.conf --non-interactive
+ExecStart=/usr/local/bin/peoplecoind --config-file /etc/wow.conf --non-interactive
 WorkingDirectory=~
 Restart=always
 StandardOutput=null

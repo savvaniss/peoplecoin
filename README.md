@@ -1,38 +1,38 @@
-# ~~Mo~~Wownero -  Such privacy! Many coins! Wow!
+# ~~Mo~~PeopleCoin -  Such privacy! Many coins! Wow!
 
 [<img src="https://suchwow.xyz/data/suchwow/image/to23moqn.jpeg">](https://suchwow.xyz/s/oh-really-9eda16b2/item)
 
 ## Introduction
 
-Wownero is a Doge-inspired, CPU-mineable, solo-mining only, privacy-respecting memecoin. It was fairly launched on April Fools' Day in 2018. It is a software fork of Monero, but with a lite version of RandomX, larger ring size, and a fixed supply of 184 million coins emitted over 50 years. Wownero has no trusted setup, premine, or dev tax. Besides betting on online snail racing, the main use case of Wownero is micro-tipping meme creators with sound magic internet money. As a 100% community-driven, free and open source software, Wownero does not depend on billionaire shills or lame ass "influencers."
+PeopleCoin is a Doge-inspired, CPU-mineable, solo-mining only, privacy-respecting memecoin. It was fairly launched on April Fools' Day in 2018. It is a software fork of Monero, but with a lite version of RandomX, larger ring size, and a fixed supply of 184 million coins emitted over 50 years. PeopleCoin has no trusted setup, premine, or dev tax. Besides betting on online snail racing, the main use case of PeopleCoin is micro-tipping meme creators with sound magic internet money. As a 100% community-driven, free and open source software, PeopleCoin does not depend on billionaire shills or lame ass "influencers."
 
 Unlike Opposing Projects.
 
 ## Resources
 
-- IRC: [OFTC #wownero](https://webchat.oftc.net/?channels=wownero)
-- Web: [wownero.org](https://wownero.org)
+- IRC: [OFTC #peoplecoin](https://webchat.oftc.net/?channels=peoplecoin)
+- Web: [peoplecoin.org](https://peoplecoin.org)
 - Twitter: [@w0wn3r0](https://twitter.com/w0wn3r0)
-- Reddit: [/r/wownero](https://www.reddit.com/r/wownero)
-- Mail: [wownero@wownero.org](mailto:wownero@wownero.org)
-- Git: [codeberg.org/wownero/wownero](https://codeberg.org/wownero/wownero)
+- Reddit: [/r/peoplecoin](https://www.reddit.com/r/peoplecoin)
+- Mail: [peoplecoin@peoplecoin.org](mailto:peoplecoin@peoplecoin.org)
+- Git: [codeberg.org/peoplecoin/peoplecoin](https://codeberg.org/peoplecoin/peoplecoin)
 - Discord: [discord.gg/ykZyAzJhDK](https://discord.com/invite/ykZyAzJhDK)
-- Telegram: [t.me/wownero](https://t.me/wownero)
-- Public Node Status: [monero.fail](https://monero.fail/?chain=wownero&network=mainnet)
-- Wownero Memes: [suchwow.xyz](https://suchwow.xyz/posts/top)
-- Market Info: [coinmarketcap.com](https://coinmarketcap.com/currencies/wownero), [coingecko.com](https://www.coingecko.com/en/coins/wownero/usd)
+- Telegram: [t.me/peoplecoin](https://t.me/peoplecoin)
+- Public Node Status: [monero.fail](https://monero.fail/?chain=peoplecoin&network=mainnet)
+- PeopleCoin Memes: [suchwow.xyz](https://suchwow.xyz/posts/top)
+- Market Info: [coinmarketcap.com](https://coinmarketcap.com/currencies/peoplecoin), [coingecko.com](https://www.coingecko.com/en/coins/peoplecoin/usd)
 
 ## Exchanges
 
 - [NonKYC](https://nonkyc.io/market/WOW_BTC)
-- [AltQuick](https://altquick.com/market/Wownero)
+- [AltQuick](https://altquick.com/market/PeopleCoin)
 - [Majestic Bank](https://majesticbank.sc)
 - [TradeOgre](https://tradeogre.com/exchange/BTC-WOW)
 
 ## Wallets
 
-- Wonero CLI Wallet: [codeberg.org/wownero/wownero](https://codeberg.org/wownero/wownero/releases)
-- Wowlet Desktop Wallet: [codeberg.org/wownero/wowlet](https://codeberg.org/wownero/wowlet/releases)
+- Wonero CLI Wallet: [codeberg.org/peoplecoin/peoplecoin](https://codeberg.org/peoplecoin/peoplecoin/releases)
+- Wowlet Desktop Wallet: [codeberg.org/peoplecoin/wowlet](https://codeberg.org/peoplecoin/wowlet/releases)
 - Stack Wallet iOS & Android Mobile Wallet: [stackwallet.com](https://stackwallet.com)
 - Cake Wallet [cakewallet.com](https://cakewallet.com)
 
@@ -42,9 +42,9 @@ Unlike Opposing Projects.
 
 ## Supporting the project
 
-Wownero is a 100% community-sponsored endeavor. Supporting services are also graciously provided by sponsors:
+PeopleCoin is a 100% community-sponsored endeavor. Supporting services are also graciously provided by sponsors:
 
-[<img src="https://git.wownero.com/wownero/meta/raw/branch/master/images/macstadium.png"
+[<img src="https://git.peoplecoin.com/peoplecoin/meta/raw/branch/master/images/macstadium.png"
 alt="MacStadium"
 height="100">](https://www.macstadium.com)
 
@@ -64,20 +64,20 @@ BTC: `bc1qcw9zglp3fxyl25zswemw7jczlqryms2lsmu464`
 
 ## Release staging and Contributing
 
-**Anyone is welcome to contribute to Wownero's codebase!**
+**Anyone is welcome to contribute to PeopleCoin's codebase!**
 
-If you have a fix or code change, feel free to submit it as a pull request. Ahead of a scheduled software upgrade, a development branch will be created with the new release version tag. Pull requests that address bugs should be made to Master. Pull requests that require review and testing (generally, optimizations and new features) should be made to the development branch. All pull requests will be considered safe until the US dollar valuation of 1 Wownero equals $1000. After this valuation has been reached, more research will be needed to introduce experimental cryptography and/or code into the codebase.
+If you have a fix or code change, feel free to submit it as a pull request. Ahead of a scheduled software upgrade, a development branch will be created with the new release version tag. Pull requests that address bugs should be made to Master. Pull requests that require review and testing (generally, optimizations and new features) should be made to the development branch. All pull requests will be considered safe until the US dollar valuation of 1 PeopleCoin equals $1000. After this valuation has been reached, more research will be needed to introduce experimental cryptography and/or code into the codebase.
 
-Things to Do, Work in Progress, and Help Wanted tasks are tracked in the [Meta](https://codeberg.org/wownero/meta/issues) repo.
+Things to Do, Work in Progress, and Help Wanted tasks are tracked in the [Meta](https://codeberg.org/peoplecoin/meta/issues) repo.
 
-Join `#wownero` on IRC OFTC to participate in development conversation.
+Join `#peoplecoin` on IRC OFTC to participate in development conversation.
 
 ## Scheduled software upgrades
 
-Wownero uses a fixed-schedule software upgrade (hard fork) mechanism to implement new features. This means that users of Wownero (end users and service providers) should run current versions and upgrade their software on a regular schedule. The required software for these upgrades will be available prior to the scheduled date. Please check the repository prior to this date for the proper Wownero software version. Below is the historical schedule and the projected schedule for the next upgrade.
+PeopleCoin uses a fixed-schedule software upgrade (hard fork) mechanism to implement new features. This means that users of PeopleCoin (end users and service providers) should run current versions and upgrade their software on a regular schedule. The required software for these upgrades will be available prior to the scheduled date. Please check the repository prior to this date for the proper PeopleCoin software version. Below is the historical schedule and the projected schedule for the next upgrade.
 Dates are provided in the format YYYY-MM-DD.
 
-| Software upgrade block height | Date       | Release Name | Minimum Wownero version | Recommended Wownero version | Details                                                                            |
+| Software upgrade block height | Date       | Release Name | Minimum PeopleCoin version | Recommended PeopleCoin version | Details                                                                            |
 |-------------------------------|------------| ----------------- |-------------------------|-----------------------------| ---------------------------------------------------------------------------------- |
 | 1                             | 2018-04-01 | Awesome Akita                | v0.1.0.0                | v0.1.0.0                    | Cryptonight variant 1, ringsize >= 8, sorted inputs
 | 69,69                         | 2018-04-24 | Busty Brazzers                | v0.2.0.0                | v0.2.0.0                    | Bulletproofs, LWMA difficulty algorithm, ringsize >= 10, reduce unlock to 4
@@ -99,7 +99,7 @@ Packages are available for
 
 * Arch Linux/Manjaro
 
-        yay -S wownero-git
+        yay -S peoplecoin-git
 
 * Gentoo - Russian hacking tool
 
@@ -107,11 +107,11 @@ Packages are available for
         eselect repository enable monero
         emaint sync -r monero
         echo '*/*::monero ~amd64' >> /etc/portage/package.accept_keywords
-        emerge net-p2p/wownero
+        emerge net-p2p/peoplecoin
 
 * NixOS
 
-        nix-shell -p wownero
+        nix-shell -p peoplecoin
 
 Packaging for your favorite distribution would be a welcome contribution!
 
@@ -122,21 +122,21 @@ Packaging for your favorite distribution would be a welcome contribution!
 
 * Docker
 
-        git clone https://codeberg.org/wownero/wownero && cd wownero
+        git clone https://codeberg.org/peoplecoin/peoplecoin && cd peoplecoin
         docker build -t git-wow:master -m 4g .
-        docker run -it -p 34567:34567 -p 34568:34568 -w /home/wownero/build/release/bin git-wow:master bash
+        docker run -it -p 34567:34567 -p 34568:34568 -w /home/peoplecoin/build/release/bin git-wow:master bash
 
 * Arch Linux/Manjaro
 
         sudo pacman -Syu --needed base-devel cmake boost openssl zeromq libpgm unbound libsodium libunwind xz readline expat gtest python3 ccache doxygen graphviz qt5-tools hidapi libusb protobuf systemd gcc13
-        git clone https://codeberg.org/wownero/wownero && cd wownero
+        git clone https://codeberg.org/peoplecoin/peoplecoin && cd peoplecoin
         export CC=gcc-13 CXX=g++-13
         make -j2
 
 * Debian/Ubuntu
 
         sudo apt update && sudo apt install build-essential cmake pkg-config libssl-dev libzmq3-dev libunbound-dev libsodium-dev libunwind8-dev liblzma-dev libreadline6-dev libexpat1-dev libpgm-dev qttools5-dev-tools libhidapi-dev libusb-1.0-0-dev libprotobuf-dev protobuf-compiler libudev-dev libboost-chrono-dev libboost-date-time-dev libboost-filesystem-dev libboost-locale-dev libboost-program-options-dev libboost-regex-dev libboost-serialization-dev libboost-system-dev libboost-thread-dev python3 ccache doxygen graphviz gcc-13 g++-13
-        git clone https://codeberg.org/wownero/wownero && cd wownero
+        git clone https://codeberg.org/peoplecoin/peoplecoin && cd peoplecoin
         CC="gcc-13" CXX="g++-13" make -j2
 
 
@@ -146,9 +146,9 @@ The build places the binary in `bin/` sub-directory within the build directory
 from which cmake was invoked (repository root by default). To run in the
 foreground:
 
-    ./bin/wownerod
+    ./bin/peoplecoind
 
-To list all available options, run `./bin/wownerod --help`.  Options can be
+To list all available options, run `./bin/peoplecoind --help`.  Options can be
 specified either on the command line or in a configuration file passed by the
 `--config-file` argument.  To specify an option in the configuration file, add
 a line with the syntax `argumentname=value`, where `argumentname` is the name
@@ -156,18 +156,18 @@ of the argument without the leading dashes, for example, `log-level=1`.
 
 To run in background:
 
-    ./bin/wownerod --log-file wownerod.log --detach
+    ./bin/peoplecoind --log-file peoplecoind.log --detach
 
 To run as a systemd service, copy
-[wownerod.service](utils/systemd/wownerod.service) to `/etc/systemd/system/` and
+[peoplecoind.service](utils/systemd/peoplecoind.service) to `/etc/systemd/system/` and
 [wow.conf](utils/conf/wow.conf) to `/etc/`. The [example
-service](utils/systemd/wownerod.service) assumes that the user `wownero` exists
+service](utils/systemd/peoplecoind.service) assumes that the user `peoplecoin` exists
 and its home is the data directory specified in the [example
 config](wow.conf).
 
 Once node is synced to network, run the CLI wallet by entering:
 
-    ./bin/wownero-wallet-cli
+    ./bin/peoplecoin-wallet-cli
 
 Type `help` in CLI wallet to see standard commands (for advanced options, type `help_advanced`).
 
@@ -180,7 +180,7 @@ Type `help` in CLI wallet to see standard commands (for advanced options, type `
 
 add the following:
 ```
-HiddenServiceDir /var/lib/tor/wownero/
+HiddenServiceDir /var/lib/tor/peoplecoin/
 HiddenServicePort 34569 127.0.0.1:34569
 HiddenServicePort 34566 127.0.0.1:34566
 HiddenServiceVersion 3
@@ -188,23 +188,23 @@ HiddenServiceVersion 3
 save and close nano
 
 * `sudo /etc/init.d/tor restart && sudo systemctl enable tor`
-* copy [wow.conf](utils/conf/wow.conf) file and save it in same directory as `wownerod`.
-* start wownerod like this:
+* copy [wow.conf](utils/conf/wow.conf) file and save it in same directory as `peoplecoind`.
+* start peoplecoind like this:
 
 ```
-./wownerod --config-file=wow.conf
+./peoplecoind --config-file=wow.conf
 ```
 
-* `sudo cat /var/lib/tor/wownero/hostname`
+* `sudo cat /var/lib/tor/peoplecoin/hostname`
 
-Copy your onion address and share node with others [here](https://monero.fail/?crypto=wownero).
+Copy your onion address and share node with others [here](https://monero.fail/?crypto=peoplecoin).
 
-To share your node over p2p, uncomment first line of wownerod.conf and add your onion address.
+To share your node over p2p, uncomment first line of peoplecoind.conf and add your onion address.
 
 ### Access remote Tor node from CLI wallet
 
 ```
-./wownero-wallet-cli --proxy 127.0.0.1:9050 --daemon-address iy6ry6uudpzvbd72zsipepukp6nsazjdu72n52vg3isfnxqn342flzad.onion:34568
+./peoplecoin-wallet-cli --proxy 127.0.0.1:9050 --daemon-address iy6ry6uudpzvbd72zsipepukp6nsazjdu72n52vg3isfnxqn342flzad.onion:34568
 ```
 
 Copyright (c) 2014-2024 The Monero Project.

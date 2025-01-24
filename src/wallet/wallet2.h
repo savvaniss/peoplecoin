@@ -1286,7 +1286,7 @@ private:
     }
 
     BEGIN_SERIALIZE_OBJECT()
-      MAGIC_FIELD("wownero wallet cache")
+      MAGIC_FIELD("peoplecoin wallet cache")
       VERSION_FIELD(1)
       FIELD(m_blockchain)
       FIELD(m_transfers)

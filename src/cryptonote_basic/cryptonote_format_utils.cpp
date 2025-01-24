@@ -1162,7 +1162,7 @@ namespace cryptonote
     switch (decimal_point)
     {
       case 11:
-        return "wownero";
+        return "peoplecoin";
       case 8:
         return "verywow";
       case 5:

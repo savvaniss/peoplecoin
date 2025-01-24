@@ -724,7 +724,7 @@ namespace nodetool
     }
     else
     {
-      full_addrs.insert("158.69.60.225:34567");   //  explore.wownero.com
+      full_addrs.insert("158.69.60.225:34567");   //  explore.peoplecoin.com
       full_addrs.insert("159.65.91.59:34567");    //  jw
       full_addrs.insert("51.161.131.176:34567");  //  node.suchwow.xyz
       full_addrs.insert("88.198.199.23:34567");
